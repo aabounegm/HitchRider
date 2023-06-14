@@ -11,6 +11,7 @@
     "format:write": "prettier --write ."
   },
   "dependencies": {
+    "@twa-dev/sdk": "^6.4.2",
     "@types/node": "20.3.1",
     "@types/react": "18.2.12",
     "@types/react-dom": "18.2.5",
