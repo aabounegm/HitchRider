@@ -3,7 +3,7 @@ import { bot } from '@/lib/telegram';
 
 const secretToken = process.env.TELEGRAM_SECRET_TOKEN;
 
-export default async function handler(req: NextRequest) {
+export async function GET(req: NextRequest) {
   const { json, headers, ip } = req;
 
   try {
