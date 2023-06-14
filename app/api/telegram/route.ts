@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
     } else {
       console.warn('Received an unauthorized request from', ip);
     }
+    return new Response();
   } catch (e) {
     console.error(e);
     return NextResponse.json(
