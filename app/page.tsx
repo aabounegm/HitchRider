@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import UserIcon from '~icons/fa/user.jsx';
 import classes from './page.module.css';
 
 export default function Home() {
@@ -10,7 +11,9 @@ export default function Home() {
       <header>
         <div className="flex justify-between p-2">
           <h1>HitchRider</h1>
-          <Link href="/profile">Profile</Link>
+          <Link href="/profile">
+            <UserIcon />
+          </Link>
         </div>
         <nav>
           <TabList className="flex">
