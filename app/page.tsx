@@ -5,6 +5,8 @@ import 'react-tabs/style/react-tabs.css';
 import UserIcon from '~icons/fa/user.jsx';
 import classes from './page.module.css';
 import { useEffect, useState } from 'react';
+import Ride from '@/components/Ride';
+import { sampleRides } from '@/lib/types/ride';
 
 export default function Home() {
   // TODO: use driver's profile mode to set the initial tab index
@@ -46,9 +48,13 @@ export default function Home() {
         </nav>
       </header>
 
-      <main className="p-3">
+      <main className="p-2">
         <TabPanel>
-          <h2>List of rides</h2>
+          <section className="flex flex-col gap-2">
+            {sampleRides.map((ride) => (
+              <Ride key={ride.id} {...ride} />
+            ))}
+          </section>
         </TabPanel>
         <TabPanel>
           <h2>List of requests</h2>
