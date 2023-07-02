@@ -1,6 +1,8 @@
 import type { Ride } from '@/lib/api/rides';
+import Link from 'next/link';
 
 export default function Ride({
+  id,
   from,
   to,
   time,
@@ -9,7 +11,10 @@ export default function Ride({
   recurrence,
 }: Ride) {
   return (
-    <div className="grid grid-cols-2 p-3 rounded-lg border border-gray-200 shadow bg-[var(--tg-theme-bg-color)]">
+    <Link
+      href={`/rides/${id}`}
+      className="grid grid-cols-2 p-3 rounded-lg border border-gray-200 shadow bg-[var(--tg-theme-bg-color)] text-[var(--tg-theme-text-color)]"
+    >
       <h3 className="font-bold">From:</h3>
       <p>{from}</p>
       <h3 className="font-bold">To:</h3>
@@ -28,6 +33,6 @@ export default function Ride({
           <p>{recurrence.type}</p>
         </>
       )}
-    </div>
+    </Link>
   );
 }
