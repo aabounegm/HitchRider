@@ -15,7 +15,7 @@ export default function Home() {
   const [rides, setRides] = useState<RideType[]>([]);
 
   const updateSelectedTab = (index: number) => {
-    const { MainButton } = window.Telegram.WebApp;
+    const { MainButton, BackButton } = window.Telegram.WebApp;
     if (index === 0) {
       // List of rides
       MainButton.setText('Add a new ride');
@@ -25,6 +25,7 @@ export default function Home() {
     }
     MainButton.enable();
     MainButton.show();
+    BackButton.hide();
     setTabIndex(index);
   };
   useEffect(() => updateSelectedTab(tabIndex), []);
