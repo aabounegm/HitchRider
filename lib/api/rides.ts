@@ -12,7 +12,7 @@ export interface Ride {
   };
 }
 
-export const sampleRides: Ride[] = [
+const sampleRides: Ride[] = [
   {
     id: 1,
     time: new Date('2023-08-02T16:30:00.000Z'),
@@ -42,3 +42,11 @@ export const sampleRides: Ride[] = [
     seats: 3,
   },
 ];
+
+export async function listRides() {
+  return sampleRides;
+}
+
+export async function getRide(id: number) {
+  return sampleRides.find((ride) => ride.id === id) ?? null;
+}

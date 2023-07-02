@@ -1,4 +1,4 @@
-import type { Ride } from '@/lib/types/ride';
+import type { Ride } from '@/lib/api/rides';
 
 export default function Ride({
   from,

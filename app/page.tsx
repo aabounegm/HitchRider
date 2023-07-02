@@ -6,11 +6,13 @@ import UserIcon from '~icons/fa/user.jsx';
 import classes from './page.module.css';
 import { useEffect, useState } from 'react';
 import Ride from '@/components/Ride';
-import { sampleRides } from '@/lib/types/ride';
+import { listRides } from '@/lib/api/rides';
+import type { Ride as RideType } from '@/lib/api/rides';
 
 export default function Home() {
   // TODO: use driver's profile mode to set the initial tab index
   const [tabIndex, setTabIndex] = useState(0);
+  const [rides, setRides] = useState<RideType[]>([]);
 
   const updateSelectedTab = (index: number) => {
     const { MainButton } = window.Telegram.WebApp;
@@ -26,6 +28,9 @@ export default function Home() {
     setTabIndex(index);
   };
   useEffect(() => updateSelectedTab(tabIndex), []);
+  useEffect(() => {
+    listRides().then(setRides);
+  }, []);
 
   return (
     <Tabs
@@ -51,7 +56,7 @@ export default function Home() {
       <main className="p-2">
         <TabPanel>
           <section className="flex flex-col gap-2">
-            {sampleRides.map((ride) => (
+            {rides.map((ride) => (
               <Ride key={ride.id} {...ride} />
             ))}
           </section>
