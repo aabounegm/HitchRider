@@ -1,4 +1,5 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -12,6 +13,7 @@ import { MainButton } from '@twa-dev/sdk/react';
 
 export default function Home() {
   const [rides, setRides] = useState<RideType[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     listRides().then(setRides);
@@ -42,15 +44,15 @@ export default function Home() {
             ))}
           </section>
           <MainButton
-            text="Add a new ride"
-            onClick={() => alert('submitted')}
+            text="Request a new lift"
+            onClick={() => router.push('/requests/new')}
           />
         </TabPanel>
         <TabPanel>
           <h2>List of requests</h2>
           <MainButton
-            text="Add a new request"
-            onClick={() => alert('submitted')}
+            text="Add my upcoming ride"
+            onClick={() => router.push('/rides/new')}
           />
         </TabPanel>
       </main>
