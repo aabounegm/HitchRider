@@ -8,37 +8,17 @@ import { useEffect, useState } from 'react';
 import Ride from '@/components/Ride';
 import { listRides } from '@/lib/api/rides';
 import type { Ride as RideType } from '@/lib/api/rides';
+import { MainButton } from '@twa-dev/sdk/react';
 
 export default function Home() {
-  // TODO: use driver's profile mode to set the initial tab index
-  const [tabIndex, setTabIndex] = useState(0);
   const [rides, setRides] = useState<RideType[]>([]);
 
-  const updateSelectedTab = (index: number) => {
-    const { MainButton, BackButton } = window.Telegram.WebApp;
-    if (index === 0) {
-      // List of rides
-      MainButton.setText('Add a new ride');
-    } else if (index === 1) {
-      // List of requests
-      MainButton.setText('Request a new ride');
-    }
-    MainButton.enable();
-    MainButton.show();
-    BackButton.hide();
-    setTabIndex(index);
-  };
-  useEffect(() => updateSelectedTab(tabIndex), []);
   useEffect(() => {
     listRides().then(setRides);
   }, []);
 
   return (
-    <Tabs
-      selectedTabClassName={classes.active}
-      selectedIndex={tabIndex}
-      onSelect={updateSelectedTab}
-    >
+    <Tabs selectedTabClassName={classes.active}>
       <header>
         <div className="flex justify-between p-2">
           <h1>HitchRider</h1>
@@ -61,9 +41,17 @@ export default function Home() {
               <Ride key={ride.id} {...ride} />
             ))}
           </section>
+          <MainButton
+            text="Add a new ride"
+            onClick={() => alert('submitted')}
+          />
         </TabPanel>
         <TabPanel>
           <h2>List of requests</h2>
+          <MainButton
+            text="Add a new request"
+            onClick={() => alert('submitted')}
+          />
         </TabPanel>
       </main>
     </Tabs>

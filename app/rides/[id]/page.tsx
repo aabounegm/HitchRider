@@ -1,22 +1,12 @@
 'use client';
 import { Ride, getRide } from '@/lib/api/rides';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { BackButton } from '@twa-dev/sdk/react';
 
 export default function RidePage() {
   const params = useParams();
-  const router = useRouter();
-
   const [ride, setRide] = useState<Ride | null>(null);
-
-  useEffect(() => {
-    const { BackButton, MainButton } = window.Telegram.WebApp;
-    BackButton.onClick(router.back);
-    BackButton.show();
-    // TODO: check if it's my own ride, and if so show "edit" button instead
-    MainButton.setText('Contact driver');
-    MainButton.hide();
-  }, []);
 
   useEffect(() => {
     getRide(Number(params.id)).then(setRide);
@@ -33,6 +23,7 @@ export default function RidePage() {
   const { id, from, to, seats, price, time, recurrence } = ride;
   return (
     <main className="p-2">
+      <BackButton />
       <p>Ride #{id}</p>
       <h3 className="font-bold">From:</h3>
       <p>{from}</p>
