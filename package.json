@@ -31,6 +31,7 @@
     "@iconify-json/fa": "^1.1.4",
     "@svgr/core": "^8.0.0",
     "@svgr/plugin-jsx": "^8.0.1",
+    "@tailwindcss/forms": "^0.5.3",
     "@twa-dev/types": "^6.7.0",
     "eslint-config-prettier": "^8.8.0",
     "prettier": "^2.8.8",
