@@ -1,4 +1,9 @@
+# HitchRider
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+[ER Diagram](https://dbdiagram.io/d/648ded5002bd1c4a5ea57759).
+The [Next.js-Prisma-Postgres guide](https://vercel.com/guides/nextjs-prisma-postgres) on Vercel is followed.
 
 ## Getting Started
 
