@@ -1,5 +1,5 @@
 'use client';
-import { BackButton } from '@twa-dev/sdk/react';
+import { BackButton } from '@/lib/components/telegram';
 
 export default function Profile() {
   return (

@@ -1,5 +1,5 @@
 'use client';
-import { BackButton, MainButton } from '@twa-dev/sdk/react';
+import { BackButton, MainButton } from '@/lib/components/telegram';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 interface Request {

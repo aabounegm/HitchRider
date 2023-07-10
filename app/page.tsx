@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import Ride from '@/components/Ride';
 import { listRides } from '@/lib/api/rides';
 import type { Ride as RideType } from '@/lib/api/rides';
-import { MainButton } from '@twa-dev/sdk/react';
+import { MainButton } from '@/lib/components/telegram';
 
 export default function Home() {
   const [rides, setRides] = useState<RideType[]>([]);

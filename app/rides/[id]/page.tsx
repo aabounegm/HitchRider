@@ -2,7 +2,7 @@
 import { Ride, getRide } from '@/lib/api/rides';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { BackButton } from '@twa-dev/sdk/react';
+import { BackButton } from '@/lib/components/telegram';
 
 export default function RidePage() {
   const params = useParams();
