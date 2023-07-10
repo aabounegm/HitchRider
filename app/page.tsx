@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import UserIcon from '~icons/fa/user.jsx';
-import classes from './page.module.css';
 import { useEffect, useState } from 'react';
 import Ride from '@/components/Ride';
 import { listRides } from '@/lib/api/rides';
@@ -20,7 +19,7 @@ export default function Home() {
   }, []);
 
   return (
-    <Tabs selectedTabClassName={classes.active}>
+    <Tabs selectedTabClassName="text-tg-button border-b-2 border-tg-button rounded-sm">
       <header>
         <div className="flex justify-between p-2">
           <h1>HitchRider</h1>

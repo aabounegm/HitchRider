@@ -13,7 +13,7 @@ export default function Ride({
   return (
     <Link
       href={`/rides/${id}`}
-      className="grid grid-cols-2 p-3 rounded-lg border border-gray-200 shadow bg-[var(--tg-theme-bg-color)] text-[var(--tg-theme-text-color)]"
+      className="grid grid-cols-2 p-3 rounded-lg border border-gray-200 shadow bg-tg-bg text-tg-text"
     >
       <h3 className="font-bold">From:</h3>
       <p>{from}</p>
