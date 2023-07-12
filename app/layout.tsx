@@ -5,11 +5,6 @@ import { SWRConfig } from 'swr';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata = {
-  title: 'HitchRider',
-  description: 'Connecting drivers to hitchhikers',
-};
-
 export default function RootLayout({
   children,
 }: {
