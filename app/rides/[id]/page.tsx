@@ -1,18 +1,20 @@
 'use client';
-import { Ride, getRide } from '@/lib/api/rides';
+// import { Ride, getRide } from '@/lib/api/rides';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { BackButton } from '@/lib/components/telegram';
+import useSWR from 'swr';
+import type { RideRequest } from '@prisma/client';
 
 export default function RidePage() {
   const params = useParams();
-  const [ride, setRide] = useState<Ride | null>(null);
+  const {
+    data: ride,
+    isLoading,
+    error,
+  } = useSWR<RideRequest>('/api/rides/' + params.id);
 
-  useEffect(() => {
-    getRide(Number(params.id)).then(setRide);
-  }, []);
-
-  if (ride == null) {
+  if (isLoading) {
     return (
       <main>
         <p>Loading...</p>
@@ -20,7 +22,23 @@ export default function RidePage() {
     );
   }
 
-  const { id, from, to, seats, price, time, recurrence } = ride;
+  if (error) {
+    return (
+      <main>
+        <p>An error occurred: {error.message}</p>
+      </main>
+    );
+  }
+
+  if (ride === undefined) {
+    return (
+      <main>
+        <p>An unknown error occurred</p>
+      </main>
+    );
+  }
+
+  const { id, from, to, time, passengers } = ride;
   return (
     <main className="p-2">
       <BackButton />
@@ -30,19 +48,19 @@ export default function RidePage() {
       <h3 className="font-bold">To:</h3>
       <p>{to}</p>
       <h3 className="font-bold">Available seats:</h3>
-      <p>{seats}</p>
-      <h3 className="font-bold">Price per seat:</h3>
-      <p>{price || 'Free'}</p>
+      <p>{passengers}</p>
+      {/* <h3 className="font-bold">Price per seat:</h3>
+      <p>{price || 'Free'}</p> */}
       <h3 className="font-bold">Day:</h3>
       <p>{time.toLocaleDateString()}</p>
       <h3 className="font-bold">Leaves at:</h3>
       <p>{time.toLocaleTimeString()}</p>
-      {recurrence && (
+      {/* recurrence && (
         <>
           <h3 className="font-bold">Recurrence:</h3>
           <p>{recurrence.type}</p>
         </>
-      )}
+      ) */}
     </main>
   );
 }
