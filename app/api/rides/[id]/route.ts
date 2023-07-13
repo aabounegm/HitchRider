@@ -9,7 +9,7 @@ type Params = {
 
 export async function GET(req: NextRequest, { params }: Params) {
   try {
-    const ride = await prisma.rideRequest.findUniqueOrThrow({
+    const ride = await prisma.rideAnnouncement.findUniqueOrThrow({
       where: {
         id: Number(params.id),
       },
