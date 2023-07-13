@@ -4,6 +4,12 @@ import prisma from '@/lib/prisma';
 export async function GET(req: NextRequest) {
   try {
     const rides = await prisma.rideAnnouncement.findMany();
+    return NextResponse.json(
+      rides.map((ride) => ({
+        ...ride,
+        userChatId: Number(ride.userChatId),
+      }))
+    );
   } catch (e) {
     console.error(e);
     return NextResponse.json(
@@ -11,4 +17,8 @@ export async function GET(req: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+export async function POST(req: NextRequest) {
+  return;
 }

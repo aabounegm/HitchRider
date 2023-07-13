@@ -15,7 +15,10 @@ export async function GET(req: NextRequest, { params }: Params) {
       },
     });
     console.log('Found ride', ride);
-    return NextResponse.json(ride);
+    return NextResponse.json({
+      ...ride,
+      userChatId: Number(ride.userChatId),
+    });
   } catch (e) {
     if ((e as any).name === 'NotFoundError') {
       return NextResponse.json({ message: 'Ride not found' }, { status: 404 });
