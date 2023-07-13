@@ -8,11 +8,9 @@ import type { RideRequest } from '@prisma/client';
 
 export default function RidePage() {
   const params = useParams();
-  const {
-    data: ride,
-    isLoading,
-    error,
-  } = useSWR<RideRequest>('/api/rides/' + params.id);
+  const { data, isLoading, error } = useSWR<RideRequest>(
+    '/api/rides/' + params.id
+  );
 
   if (isLoading) {
     return (
@@ -30,13 +28,15 @@ export default function RidePage() {
     );
   }
 
-  if (ride === undefined) {
+  if (data === undefined) {
     return (
       <main>
         <p>An unknown error occurred</p>
       </main>
     );
   }
+
+  const ride = { ...data, time: new Date(data.time) };
 
   const { id, from, to, time, passengers } = ride;
   return (
