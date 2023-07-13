@@ -1,5 +1,6 @@
 'use client';
 import { BackButton, MainButton } from '@/lib/components/telegram';
+import { tzIsoTimestamp } from '@/lib/date-utils';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 interface Request {
@@ -13,8 +14,8 @@ export default function NewRequestPage() {
   const initialValues: Request = {
     from: '',
     to: '',
-    // TODO: fix timezone (this uses UTC, not current timezone)
-    time: new Date().toISOString().split('.')[0],
+    // TODO: ceil it to nearest 15 - 30 mins
+    time: tzIsoTimestamp(new Date()),
     passengers: 1,
   };
 
