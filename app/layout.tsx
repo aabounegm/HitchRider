@@ -1,6 +1,8 @@
 'use client';
+import { ensureUserExists } from '@/lib/api/user';
 import './globals.css';
 import { Inter } from 'next/font/google';
+import { useEffect } from 'react';
 import { SWRConfig } from 'swr';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -15,6 +17,10 @@ export default function RootLayout({
       if (!res.ok) throw await res.json();
       return await res.json();
     });
+
+  useEffect(() => {
+    ensureUserExists();
+  }, []);
 
   return (
     <html lang="en" suppressHydrationWarning={true}>

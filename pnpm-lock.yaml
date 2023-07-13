@@ -11,6 +11,9 @@ dependencies:
   '@twa-dev/sdk':
     specifier: ^6.7.0
     version: 6.7.0(react@18.2.0)
+  '@twa.js/init-data':
+    specifier: ^0.2.6
+    version: 0.2.6
   '@types/node':
     specifier: 20.3.1
     version: 20.3.1
@@ -698,8 +701,23 @@ packages:
   /@twa-dev/types@6.7.0:
     resolution: {integrity: sha512-2QtS8oQeHkZvKAsTxqvFGdZOrR7Jc4N9rzJFEIj5e7lC5dqayIatSAh91qmGULjzxOd4sqyWqq1XF6DwZnwldQ==}
 
+  /@twa.js/init-data@0.2.6:
+    resolution: {integrity: sha512-csbG46oROAVdSx0hojz0WM/pbey89RrIYuppdJshL8xPAF1mMEhMT89JgfYTxkU6mQxOqQvGEsKVZ9n42RpqtA==}
+    dependencies:
+      '@twa.js/utils': 0.2.10
+      '@types/node': 18.16.19
+    dev: false
+
+  /@twa.js/utils@0.2.10:
+    resolution: {integrity: sha512-QpLTEjqe7QH6IgWgdxTLTWBPH2zdOoWJ6uCOTzwgqnYqrsNzMkJTJg5TJ+MBeqptybT+062cPuZ7SPHnXVs85w==}
+    dev: false
+
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: false
+
+  /@types/node@18.16.19:
+    resolution: {integrity: sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==}
     dev: false
 
   /@types/node@20.3.1:
