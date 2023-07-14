@@ -19,6 +19,7 @@ export default function RootLayout({
     });
 
   useEffect(() => {
+    // TODO: move this to the backend to be done before any API request
     ensureUserExists();
   }, []);
 

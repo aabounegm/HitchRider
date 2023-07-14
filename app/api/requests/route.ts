@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
       to,
       time,
       passengers,
-      userChatId: parsedInitData.user?.id,
+      userChatId: parsedInitData.user.id,
     },
   });
 

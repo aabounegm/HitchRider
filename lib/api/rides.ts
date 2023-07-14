@@ -1,5 +1,6 @@
 import type { Prisma } from '@prisma/client';
 
+/** @deprecated */
 export interface Ride {
   id: number;
   time: Date;
@@ -27,6 +28,31 @@ export async function createRideRequest(
         to,
         time: new Date(time),
         passengers,
+      },
+    }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw data;
+  return {
+    ...data,
+    time: new Date(data.time),
+  };
+}
+
+export async function createRideAnnouncement(
+  ride: Omit<Prisma.RideAnnouncementCreateInput, 'user'>
+) {
+  const { from, to, time, passengers, carInfo } = ride;
+  const res = await fetch('/api/rides', {
+    method: 'POST',
+    body: JSON.stringify({
+      initData: window.Telegram.WebApp.initData,
+      rideAnnouncement: {
+        from,
+        to,
+        passengers,
+        carInfo,
+        time: new Date(time),
       },
     }),
   });

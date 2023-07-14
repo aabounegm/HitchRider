@@ -4,11 +4,11 @@ import { useParams } from 'next/navigation';
 // import { useEffect, useState } from 'react';
 import { BackButton } from '@/lib/components/telegram';
 import useSWR from 'swr';
-import type { RideRequest } from '@prisma/client';
+import type { RideAnnouncement } from '@prisma/client';
 
 export default function RidePage() {
   const params = useParams();
-  const { data, isLoading, error } = useSWR<RideRequest>(
+  const { data, isLoading, error } = useSWR<RideAnnouncement>(
     '/api/rides/' + params.id
   );
 
@@ -38,7 +38,7 @@ export default function RidePage() {
 
   const ride = { ...data, time: new Date(data.time) };
 
-  const { id, from, to, time, passengers } = ride;
+  const { id, from, to, time, passengers, carInfo } = ride;
   return (
     <main className="p-2">
       <BackButton />
@@ -55,6 +55,8 @@ export default function RidePage() {
       <p>{time.toLocaleDateString()}</p>
       <h3 className="font-bold">Leaves at:</h3>
       <p>{time.toLocaleTimeString()}</p>
+      <h3 className="font-bold">Car info:</h3>
+      <p>{carInfo}</p>
       {/* recurrence && (
         <>
           <h3 className="font-bold">Recurrence:</h3>
