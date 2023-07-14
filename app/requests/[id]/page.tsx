@@ -2,12 +2,12 @@
 import { useParams } from 'next/navigation';
 import { BackButton } from '@/lib/components/telegram';
 import useSWR from 'swr';
-import type { RideAnnouncement } from '@prisma/client';
+import type { RideRequest } from '@prisma/client';
 
-export default function RidePage() {
+export default function RideRequestPage() {
   const params = useParams();
-  const { data, isLoading, error } = useSWR<RideAnnouncement>(
-    '/api/rides/' + params.id
+  const { data, isLoading, error } = useSWR<RideRequest>(
+    '/api/requests/' + params.id
   );
 
   if (isLoading) {
@@ -36,7 +36,7 @@ export default function RidePage() {
 
   const ride = { ...data, time: new Date(data.time) };
 
-  const { id, from, to, time, passengers, carInfo } = ride;
+  const { id, from, to, time, passengers } = ride;
   return (
     <main className="p-2">
       <BackButton />
@@ -45,7 +45,7 @@ export default function RidePage() {
       <p>{from}</p>
       <h3 className="font-bold">To:</h3>
       <p>{to}</p>
-      <h3 className="font-bold">Available seats:</h3>
+      <h3 className="font-bold">Required seats:</h3>
       <p>{passengers}</p>
       {/* <h3 className="font-bold">Price per seat:</h3>
       <p>{price || 'Free'}</p> */}
@@ -53,8 +53,6 @@ export default function RidePage() {
       <p>{time.toLocaleDateString()}</p>
       <h3 className="font-bold">Leaves at:</h3>
       <p>{time.toLocaleTimeString()}</p>
-      <h3 className="font-bold">Car info:</h3>
-      <p>{carInfo}</p>
       {/* recurrence && (
         <>
           <h3 className="font-bold">Recurrence:</h3>

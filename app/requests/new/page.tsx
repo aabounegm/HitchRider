@@ -1,6 +1,9 @@
 'use client';
+import { createRideRequest } from '@/lib/api/rides';
 import { BackButton, MainButton } from '@/lib/components/telegram';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { tzIsoTimestamp } from '@/lib/date-utils';
+import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
+import { useRouter } from 'next/navigation';
 
 interface Request {
   from: string;
@@ -10,11 +13,13 @@ interface Request {
 }
 
 export default function NewRequestPage() {
+  const router = useRouter();
+
   const initialValues: Request = {
     from: '',
     to: '',
-    // TODO: fix timezone (this uses UTC, not current timezone)
-    time: new Date().toISOString().split('.')[0],
+    // TODO: ceil it to nearest 15 - 30 mins
+    time: tzIsoTimestamp(new Date()),
     passengers: 1,
   };
 
@@ -24,15 +29,19 @@ export default function NewRequestPage() {
     return errors;
   }
 
+  async function submit(values: Request, helpers: FormikHelpers<Request>) {
+    await createRideRequest(values);
+    helpers.resetForm();
+    router.back();
+  }
+
   return (
     <main className="p-2">
       <BackButton />
       <h1 className="text-xl">Request a lift</h1>
       <Formik
         initialValues={initialValues}
-        onSubmit={(values) => {
-          console.log(values);
-        }}
+        onSubmit={submit}
         validate={validate}
       >
         {({ isSubmitting, isValid, isValidating, submitForm }) => (
@@ -54,15 +63,11 @@ export default function NewRequestPage() {
               <span>Passengers:</span>
               <Field type="number" name="passengers" min={1} />
             </label>
-            <p>
-              Valid: {isValid.toString()} <br></br>
-              submitting: {isSubmitting.toString()}
-            </p>
             <MainButton
               text="Request"
               onClick={submitForm}
-              disabled={true}
-              progress={isSubmitting || isValidating}
+              disabled={!isValid || isSubmitting}
+              progress={isSubmitting}
             />
           </Form>
         )}

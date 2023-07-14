@@ -1,52 +1,50 @@
-export interface Ride {
-  id: number;
-  time: Date;
-  from: string;
-  to: string;
-  price: number;
-  seats: number;
-  recurrence?: {
-    type: 'daily' | 'weekly' | 'monthly';
-    interval: number;
-    endDate?: Date;
+import type { Prisma } from '@prisma/client';
+
+export async function createRideRequest(
+  ride: Omit<Prisma.RideRequestCreateInput, 'user'>
+) {
+  const { from, to, time, passengers } = ride;
+  const res = await fetch('/api/requests', {
+    method: 'POST',
+    body: JSON.stringify({
+      initData: window.Telegram.WebApp.initData,
+      rideRequest: {
+        from,
+        to,
+        time: new Date(time),
+        passengers,
+      },
+    }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw data;
+  return {
+    ...data,
+    time: new Date(data.time),
   };
 }
 
-const sampleRides: Ride[] = [
-  {
-    id: 1,
-    time: new Date('2023-08-02T16:30:00.000Z'),
-    from: 'Innopolis',
-    to: 'Kazan',
-    price: 20,
-    seats: 4,
-    recurrence: {
-      type: 'daily',
-      interval: 1,
-    },
-  },
-  {
-    id: 2,
-    time: new Date('2023-08-05T15:00:00.000Z'),
-    from: 'Ufa',
-    to: 'Innopolis',
-    price: 0,
-    seats: 2,
-  },
-  {
-    id: 3,
-    time: new Date('2023-08-07T12:00:00.000Z'),
-    from: 'Kazan',
-    to: 'Innopolis',
-    price: 30,
-    seats: 3,
-  },
-];
-
-export async function listRides() {
-  return sampleRides;
-}
-
-export async function getRide(id: number) {
-  return sampleRides.find((ride) => ride.id === id) ?? null;
+export async function createRideAnnouncement(
+  ride: Omit<Prisma.RideAnnouncementCreateInput, 'user'>
+) {
+  const { from, to, time, passengers, carInfo } = ride;
+  const res = await fetch('/api/rides', {
+    method: 'POST',
+    body: JSON.stringify({
+      initData: window.Telegram.WebApp.initData,
+      rideAnnouncement: {
+        from,
+        to,
+        passengers,
+        carInfo,
+        time: new Date(time),
+      },
+    }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw data;
+  return {
+    ...data,
+    time: new Date(data.time),
+  };
 }

@@ -1,25 +1,43 @@
+'use client';
+import { ensureUserExists } from '@/lib/api/user';
 import './globals.css';
 import { Inter } from 'next/font/google';
+import { useEffect } from 'react';
+import { SWRConfig } from 'swr';
 
 const inter = Inter({ subsets: ['latin'] });
-
-export const metadata = {
-  title: 'HitchRider',
-  description: 'Connecting drivers to hitchhikers',
-};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const fetcher = (input: RequestInfo | URL, init?: RequestInit | undefined) =>
+    fetch(input, init).then(async (res) => {
+      if (!res.ok) throw await res.json();
+      return await res.json();
+    });
+
+  useEffect(() => {
+    // TODO: move this to the backend to be done before any API request
+    ensureUserExists();
+  }, []);
+
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <head>
         {/* eslint-disable-next-line @next/next/no-sync-scripts */}
         <script src="https://telegram.org/js/telegram-web-app.js"></script>
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <SWRConfig
+          value={{
+            fetcher,
+          }}
+        >
+          {children}
+        </SWRConfig>
+      </body>
     </html>
   );
 }

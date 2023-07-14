@@ -4,19 +4,12 @@ import Link from 'next/link';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import UserIcon from '~icons/fa/user.jsx';
-import { useEffect, useState } from 'react';
-import Ride from '@/components/Ride';
-import { listRides } from '@/lib/api/rides';
-import type { Ride as RideType } from '@/lib/api/rides';
 import { MainButton } from '@/lib/components/telegram';
+import AnnouncementsList from '@/components/AnnouncementsList';
+import RequestsList from '@/components/RequestsList';
 
 export default function Home() {
-  const [rides, setRides] = useState<RideType[]>([]);
   const router = useRouter();
-
-  useEffect(() => {
-    listRides().then(setRides);
-  }, []);
 
   return (
     <Tabs selectedTabClassName="text-tg-button border-b-2 border-tg-button rounded-sm">
@@ -37,18 +30,14 @@ export default function Home() {
 
       <main className="p-2">
         <TabPanel>
-          <section className="flex flex-col gap-2">
-            {rides.map((ride) => (
-              <Ride key={ride.id} {...ride} />
-            ))}
-          </section>
+          <AnnouncementsList />
           <MainButton
             text="Request a new lift"
             onClick={() => router.push('/requests/new')}
           />
         </TabPanel>
         <TabPanel>
-          <h2>List of requests</h2>
+          <RequestsList />
           <MainButton
             text="Add my upcoming ride"
             onClick={() => router.push('/rides/new')}
