@@ -1,10 +1,10 @@
 'use client';
 import useSWR from 'swr';
-import { RideRequest } from '@prisma/client';
+import type { RideAnnouncement } from '@prisma/client';
 import Ride from '@/components/RideAnnouncement';
 
 export default function RidesList() {
-  const { isLoading, error, data } = useSWR<RideRequest[]>('/api/rides');
+  const { isLoading, error, data } = useSWR<RideAnnouncement[]>('/api/rides');
 
   if (isLoading) {
     return <p>Loading...</p>;

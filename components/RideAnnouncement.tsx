@@ -1,4 +1,4 @@
-import type { RideRequest } from '@prisma/client';
+import type { RideAnnouncement } from '@prisma/client';
 import Link from 'next/link';
 
 export default function Ride({
@@ -9,7 +9,7 @@ export default function Ride({
   // price,
   // recurrence,
   passengers,
-}: RideRequest) {
+}: RideAnnouncement) {
   return (
     <Link
       href={`/rides/${id}`}
