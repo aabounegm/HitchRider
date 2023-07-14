@@ -12,14 +12,14 @@ export default function Ride({
 }: RideRequest) {
   return (
     <Link
-      href="#"
+      href={`/requests/${id}`}
       className="grid grid-cols-2 p-3 rounded-lg border border-gray-200 shadow bg-tg-bg text-tg-text"
     >
       <h3 className="font-bold">From:</h3>
       <p>{from}</p>
       <h3 className="font-bold">To:</h3>
       <p>{to}</p>
-      <h3 className="font-bold">Available seats:</h3>
+      <h3 className="font-bold">Required seats:</h3>
       <p>{passengers}</p>
       {/* <h3 className="font-bold">Price per seat:</h3>
       <p>{price}</p> */}
