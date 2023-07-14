@@ -6,6 +6,7 @@ import 'react-tabs/style/react-tabs.css';
 import UserIcon from '~icons/fa/user.jsx';
 import { MainButton } from '@/lib/components/telegram';
 import AnnouncementsList from '@/components/AnnouncementsList';
+import RequestsList from '@/components/RequestsList';
 
 export default function Home() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function Home() {
           />
         </TabPanel>
         <TabPanel>
-          <h2>List of requests</h2>
+          <RequestsList />
           <MainButton
             text="Add my upcoming ride"
             onClick={() => router.push('/rides/new')}

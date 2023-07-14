@@ -5,6 +5,24 @@ import { parseInitData } from '@twa.js/init-data';
 import { validate } from '@twa.js/init-data/validation';
 import prisma from '@/lib/prisma';
 
+export async function GET(req: NextRequest) {
+  try {
+    const rides = await prisma.rideRequest.findMany();
+    return NextResponse.json(
+      rides.map((ride) => ({
+        ...ride,
+        userChatId: Number(ride.userChatId),
+      }))
+    );
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json(
+      { message: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(req: NextRequest) {
   const { initData, rideRequest } = await req.json();
   try {
