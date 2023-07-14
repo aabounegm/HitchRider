@@ -1,20 +1,5 @@
 import type { Prisma } from '@prisma/client';
 
-/** @deprecated */
-export interface Ride {
-  id: number;
-  time: Date;
-  from: string;
-  to: string;
-  price: number;
-  seats: number;
-  recurrence?: {
-    type: 'daily' | 'weekly' | 'monthly';
-    interval: number;
-    endDate?: Date;
-  };
-}
-
 export async function createRideRequest(
   ride: Omit<Prisma.RideRequestCreateInput, 'user'>
 ) {

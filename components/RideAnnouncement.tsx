@@ -1,5 +1,4 @@
-import type { Ride } from '@/lib/api/rides';
-import { RideRequest } from '@prisma/client';
+import type { RideRequest } from '@prisma/client';
 import Link from 'next/link';
 
 export default function Ride({

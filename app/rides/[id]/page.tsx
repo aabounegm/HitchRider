@@ -1,7 +1,5 @@
 'use client';
-// import { Ride, getRide } from '@/lib/api/rides';
 import { useParams } from 'next/navigation';
-// import { useEffect, useState } from 'react';
 import { BackButton } from '@/lib/components/telegram';
 import useSWR from 'swr';
 import type { RideAnnouncement } from '@prisma/client';
