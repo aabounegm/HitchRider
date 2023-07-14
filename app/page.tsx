@@ -5,7 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import UserIcon from '~icons/fa/user.jsx';
 import { MainButton } from '@/lib/components/telegram';
-import RidesList from '@/components/RidesList';
+import AnnouncementsList from '@/components/AnnouncementsList';
 
 export default function Home() {
   const router = useRouter();
@@ -29,7 +29,7 @@ export default function Home() {
 
       <main className="p-2">
         <TabPanel>
-          <RidesList />
+          <AnnouncementsList />
           <MainButton
             text="Request a new lift"
             onClick={() => router.push('/requests/new')}
