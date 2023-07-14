@@ -76,7 +76,7 @@ export default function NewRidePage() {
               text="Announce"
               onClick={submitForm}
               disabled={!isValid || isSubmitting}
-              progress={isSubmitting || isValidating}
+              progress={isSubmitting}
             />
           </Form>
         )}

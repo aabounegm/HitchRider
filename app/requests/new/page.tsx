@@ -67,7 +67,7 @@ export default function NewRequestPage() {
               text="Request"
               onClick={submitForm}
               disabled={!isValid || isSubmitting}
-              progress={isSubmitting || isValidating}
+              progress={isSubmitting}
             />
           </Form>
         )}
