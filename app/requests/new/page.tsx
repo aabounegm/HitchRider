@@ -63,10 +63,6 @@ export default function NewRequestPage() {
               <span>Passengers:</span>
               <Field type="number" name="passengers" min={1} />
             </label>
-            <p>
-              Valid: {isValid.toString()} <br></br>
-              submitting: {isSubmitting.toString()}
-            </p>
             <MainButton
               text="Request"
               onClick={submitForm}

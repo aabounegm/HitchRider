@@ -14,7 +14,6 @@ export async function GET(req: NextRequest, { params }: Params) {
         id: Number(params.id),
       },
     });
-    console.log('Found ride', ride);
     return NextResponse.json({
       ...ride,
       userChatId: Number(ride.userChatId),

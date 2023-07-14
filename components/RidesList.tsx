@@ -6,7 +6,6 @@ import Ride from '@/components/Ride';
 export default function RidesList() {
   const { isLoading, error, data } = useSWR<RideRequest[]>('/api/rides');
 
-  console.log(isLoading, error, data);
   if (isLoading) {
     return <p>Loading...</p>;
   }
