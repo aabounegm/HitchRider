@@ -11,9 +11,9 @@ dependencies:
   '@twa-dev/sdk':
     specifier: ^6.7.0
     version: 6.7.0(react@18.2.0)
-  '@twa.js/init-data':
-    specifier: ^0.2.6
-    version: 0.2.6
+  '@twa.js/init-data-node':
+    specifier: ^0.0.3
+    version: 0.0.3(@types/node@20.3.1)
   '@types/node':
     specifier: 20.3.1
     version: 20.3.1
@@ -701,23 +701,31 @@ packages:
   /@twa-dev/types@6.7.0:
     resolution: {integrity: sha512-2QtS8oQeHkZvKAsTxqvFGdZOrR7Jc4N9rzJFEIj5e7lC5dqayIatSAh91qmGULjzxOd4sqyWqq1XF6DwZnwldQ==}
 
-  /@twa.js/init-data@0.2.6:
-    resolution: {integrity: sha512-csbG46oROAVdSx0hojz0WM/pbey89RrIYuppdJshL8xPAF1mMEhMT89JgfYTxkU6mQxOqQvGEsKVZ9n42RpqtA==}
+  /@twa.js/init-data-node@0.0.3(@types/node@20.3.1):
+    resolution: {integrity: sha512-ES0KWc9ZvcMNWQ1Wkf9EcbXtBDMZsb2fa10dVlg9vRS8MuOkEbwiTZQ6EWLccwlNReTQRr0+vnxHYVb2B/vmWA==}
+    peerDependencies:
+      '@types/node': ^12.0.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
     dependencies:
-      '@twa.js/utils': 0.2.10
-      '@types/node': 18.16.19
+      '@twa.js/init-data': 0.2.7
+      '@twa.js/utils': 0.2.11
+      '@types/node': 20.3.1
     dev: false
 
-  /@twa.js/utils@0.2.10:
-    resolution: {integrity: sha512-QpLTEjqe7QH6IgWgdxTLTWBPH2zdOoWJ6uCOTzwgqnYqrsNzMkJTJg5TJ+MBeqptybT+062cPuZ7SPHnXVs85w==}
+  /@twa.js/init-data@0.2.7:
+    resolution: {integrity: sha512-/KSOmPp2OOWi3P14G0uVtbjllkjvHzlqyxjBpCoVOEGmXOdB1UA8393tgOzYhmk0Xvi73jLnP9bUrALSuKlYJw==}
+    dependencies:
+      '@twa.js/utils': 0.2.11
+    dev: false
+
+  /@twa.js/utils@0.2.11:
+    resolution: {integrity: sha512-yCt3ldJXdpF8EHaBw3gHvm7QKCRD1d24VyRX8gW37oa2CrJ4Jg2zngmD6pGz4780K0NhgJuF+YgfqkwVoTV9VA==}
     dev: false
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
-    dev: false
-
-  /@types/node@18.16.19:
-    resolution: {integrity: sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==}
     dev: false
 
   /@types/node@20.3.1:

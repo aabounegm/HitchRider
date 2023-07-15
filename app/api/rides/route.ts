@@ -1,9 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import type { Prisma } from '@prisma/client';
-import { parseInitData } from '@twa.js/init-data';
-// @ts-ignore - It exists, not sure why TS thinks it doesn't
-import { validate } from '@twa.js/init-data/validation';
+import { parseInitData, validate } from '@twa.js/init-data-node';
 
 export async function GET(req: NextRequest) {
   try {
