@@ -12,8 +12,8 @@ dependencies:
     specifier: ^6.7.0
     version: 6.7.0(react@18.2.0)
   '@twa.js/init-data-node':
-    specifier: ^0.0.3
-    version: 0.0.3(@types/node@20.3.1)
+    specifier: ^0.0.4
+    version: 0.0.4(@types/node@20.3.1)
   '@types/node':
     specifier: 20.3.1
     version: 20.3.1
@@ -701,10 +701,10 @@ packages:
   /@twa-dev/types@6.7.0:
     resolution: {integrity: sha512-2QtS8oQeHkZvKAsTxqvFGdZOrR7Jc4N9rzJFEIj5e7lC5dqayIatSAh91qmGULjzxOd4sqyWqq1XF6DwZnwldQ==}
 
-  /@twa.js/init-data-node@0.0.3(@types/node@20.3.1):
-    resolution: {integrity: sha512-ES0KWc9ZvcMNWQ1Wkf9EcbXtBDMZsb2fa10dVlg9vRS8MuOkEbwiTZQ6EWLccwlNReTQRr0+vnxHYVb2B/vmWA==}
+  /@twa.js/init-data-node@0.0.4(@types/node@20.3.1):
+    resolution: {integrity: sha512-4RABj+v0a9Ew8wYv4FbLo+YmgMaaV7AnTDrWTDK1hQaRNxWCvsaIFWoPhJqWw8f68JPdMJNX+bdauCovHQj3Cg==}
     peerDependencies:
-      '@types/node': ^12.0.0
+      '@types/node': '*'
     peerDependenciesMeta:
       '@types/node':
         optional: true
