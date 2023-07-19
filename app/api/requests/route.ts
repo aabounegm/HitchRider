@@ -5,7 +5,11 @@ import prisma from '@/lib/prisma';
 
 export async function GET(req: NextRequest) {
   try {
-    const rides = await prisma.rideRequest.findMany();
+    const rides = await prisma.rideRequest.findMany({
+      where: {
+        time: {},
+      },
+    });
     return NextResponse.json(
       rides.map((ride) => ({
         ...ride,
