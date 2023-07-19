@@ -14,6 +14,7 @@ model User {
     username      String?            @unique
     createdAt     DateTime           @default(now()) @map(name: "created_at")
     updatedAt     DateTime           @updatedAt @map(name: "updated_at")
+    // CarInfo       String             @default("")
     requests      RideRequest[]
     announcements RideAnnouncement[]
 
