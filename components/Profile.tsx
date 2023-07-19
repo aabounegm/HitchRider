@@ -4,8 +4,11 @@ import Image from 'next/image';
 
 export default function UserProfile() {
   const classes = 'w-full border-2 rounded-xl p-2 px-4 font-normal bg-tg-bg';
-
-  const { user } = window?.Telegram.WebApp.initDataUnsafe;
+  if (typeof window === 'undefined') {
+    return <p>Useless server render</p>;
+  }
+  // const { userData } = useSWR<User>('/api/user');
+  const { user } = window.Telegram.WebApp.initDataUnsafe;
 
   return (
     // <Link href={`/users/${chatID}/profile`}>
