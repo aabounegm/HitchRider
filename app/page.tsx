@@ -9,7 +9,7 @@ export default function Home() {
 
   return (
     <body className="bg-tg-bg text-center pt-4 flex flex-col gap-8 text-tg-text ">
-      <header className=" font-bold">
+      <header className=" text-center font-bold">
         <h1>Hitch Rider</h1>
       </header>
       <main>
