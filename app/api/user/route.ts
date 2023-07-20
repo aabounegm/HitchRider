@@ -41,5 +41,3 @@ export async function PUT(req: NextRequest) {
     chatId: Number(user.chatId),
   });
 }
-
-// export async function POST(params) {}
