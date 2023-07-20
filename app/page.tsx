@@ -1,5 +1,5 @@
 'use client';
-import NFT from '../public/NFT.jpg';
+import NFT from '@/public/NFT.jpg';
 import Link from 'next/link';
 import Image from 'next/image';
 import 'react-tabs/style/react-tabs.css';
