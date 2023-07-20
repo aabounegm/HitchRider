@@ -8,8 +8,8 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <body className="bg-tg-bg text-center pt-4 flex flex-col gap-8 text-tg-text ">
-      <header className=" text-center font-bold">
+    <>
+      <header className="text-2xl text-center font-bold">
         <h1>Hitch Rider</h1>
       </header>
       <main>
@@ -46,6 +46,6 @@ export default function Home() {
           <button className="border-b-2 p-2 px-16 text-left">My Trips</button>
         </div>
       </main>
-    </body>
+    </>
   );
 }
