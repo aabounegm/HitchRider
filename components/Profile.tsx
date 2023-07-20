@@ -34,15 +34,17 @@ export default function UserProfile() {
       <div className="flex flex-col items-center w-full gap-8  py-8 rounded-xl">
         <div className="flex items-center gap-2 w-full font-semibold">
           <div className="w-36">Name: </div>
-          <div className={classes}>{user?.first_name ?? ''}</div>
+          <div className={classes}>
+            {(user?.first_name ?? '') + ' ' + (user?.last_name ?? '')}
+          </div>
         </div>
         <div className="flex items-center gap-2 w-full font-semibold">
           <div className="w-36">Username:</div>
           <div className={classes}>@{user?.username ?? ''}</div>
         </div>
         <div className="flex items-center gap-2 w-full font-semibold">
-          <div className="w-36">{'Car Info : '}</div>
-          <div className={classes}> {'CarInfo'}</div>
+          <div className="w-36">Car info :</div>
+          <div className={classes}>TODO</div>
         </div>
       </div>
     </div>
