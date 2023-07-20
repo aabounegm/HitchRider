@@ -5,7 +5,13 @@ import { parseInitData, validate } from '@twa.js/init-data-node';
 
 export async function GET(req: NextRequest) {
   try {
-    const rides = await prisma.rideAnnouncement.findMany();
+    const rides = await prisma.rideAnnouncement.findMany({
+      where: {
+        time: {
+          gte: new Date(),
+        },
+      },
+    });
     return NextResponse.json(
       rides.map((ride) => ({
         ...ride,

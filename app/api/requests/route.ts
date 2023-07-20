@@ -7,7 +7,9 @@ export async function GET(req: NextRequest) {
   try {
     const rides = await prisma.rideRequest.findMany({
       where: {
-        time: {},
+        time: {
+          gte: new Date(),
+        },
       },
     });
     return NextResponse.json(
