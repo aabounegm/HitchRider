@@ -35,9 +35,9 @@ export default function NewRidePage() {
     values: Announcement,
     helpers: FormikHelpers<Announcement>
   ) {
-    await createRideAnnouncement(values);
+    const ride = await createRideAnnouncement(values);
     helpers.resetForm();
-    router.back();
+    router.push(`/rides/${ride.id}`);
   }
 
   return (

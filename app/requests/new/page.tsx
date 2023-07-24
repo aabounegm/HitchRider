@@ -30,9 +30,9 @@ export default function NewRequestPage() {
   }
 
   async function submit(values: Request, helpers: FormikHelpers<Request>) {
-    await createRideRequest(values);
+    const request = await createRideRequest(values);
     helpers.resetForm();
-    router.back();
+    router.push(`/requests/${request.id}`);
   }
 
   return (
