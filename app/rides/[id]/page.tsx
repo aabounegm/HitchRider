@@ -18,7 +18,8 @@ export default function RidePage() {
   }
   // const { userData } = useSWR<User>('/api/user');
   const { user } = window.Telegram.WebApp.initDataUnsafe;
-  const { initData, showAlert, showConfirm } = window.Telegram.WebApp;
+  const { initData, showAlert, showConfirm, openTelegramLink } =
+    window.Telegram.WebApp;
 
   if (isLoading) {
     return (
@@ -71,6 +72,12 @@ export default function RidePage() {
       return;
     }
     router.back();
+  }
+
+  async function contactDriver() {
+    const res = await fetch('/api/user/' + userChatId);
+    const { username } = await res.json();
+    openTelegramLink('https://t.me/' + username);
   }
 
   const chatID = user?.id;
@@ -126,7 +133,7 @@ export default function RidePage() {
             }}
           />
         ) : (
-          <MainButton text="Contact the driver" onClick={() => {}} />
+          <MainButton text="Contact the driver" onClick={contactDriver} />
         )}
       </main>
     </>

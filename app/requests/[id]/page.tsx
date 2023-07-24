@@ -17,7 +17,8 @@ export default function RideRequestPage() {
     return <p>Loading...</p>;
   }
   const { user } = window.Telegram.WebApp.initDataUnsafe;
-  const { initData, showAlert, showConfirm } = window.Telegram.WebApp;
+  const { initData, showAlert, showConfirm, openTelegramLink } =
+    window.Telegram.WebApp;
 
   if (isLoading) {
     return (
@@ -68,6 +69,12 @@ export default function RideRequestPage() {
     router.back();
   }
 
+  async function contactRider() {
+    const res = await fetch('/api/user/' + userChatId);
+    const { username } = await res.json();
+    openTelegramLink('https://t.me/' + username);
+  }
+
   const chatID = user?.id;
 
   const classes = 'flex justify-between';
@@ -116,7 +123,7 @@ export default function RideRequestPage() {
             }}
           />
         ) : (
-          <MainButton text="Contact the hitchhiker" onClick={() => {}} />
+          <MainButton text="Contact the hitchhiker" onClick={contactRider} />
         )}
       </main>
     </>
