@@ -4,12 +4,20 @@ import { MainButton } from '@/lib/components/telegram';
 import useSWR from 'swr';
 import type { RideRequest } from '@prisma/client';
 import Header from '@/components/Header';
+import { useRouter } from 'next/navigation';
 
 export default function RideRequestPage() {
   const params = useParams();
+  const router = useRouter();
   const { data, isLoading, error } = useSWR<RideRequest>(
     '/api/requests/' + params.id
   );
+  if (typeof window === 'undefined') {
+    // Useless SSR
+    return <p>Loading...</p>;
+  }
+  const { user } = window.Telegram.WebApp.initDataUnsafe;
+  const { initData, showAlert, showConfirm } = window.Telegram.WebApp;
 
   if (isLoading) {
     return (
@@ -43,8 +51,23 @@ export default function RideRequestPage() {
     userChatId: Number(data.userChatId),
   };
 
-  const { from, to, time, passengers, userChatId } = ride;
-  const { user } = window.Telegram.WebApp.initDataUnsafe;
+  const { id, from, to, time, passengers, userChatId } = ride;
+  async function confirmDeleting(confirmed: boolean) {
+    if (!confirmed) return;
+    const res = await fetch(
+      `/api/requests/${id}?initData=${encodeURIComponent(initData)}`,
+      {
+        method: 'DELETE',
+      }
+    );
+    if (!res.ok) {
+      const err = await res.json();
+      showAlert(`Failed to delete ride: ${err.message}`);
+      return;
+    }
+    router.back();
+  }
+
   const chatID = user?.id;
 
   const classes = 'flex justify-between';
@@ -86,8 +109,9 @@ export default function RideRequestPage() {
             text="Delete request"
             color="#ff0000"
             onClick={() => {
-              window.Telegram.WebApp.showConfirm(
-                'Are you sure you want to delete this request?'
+              showConfirm(
+                'Are you sure you want to delete this request?',
+                confirmDeleting
               );
             }}
           />
