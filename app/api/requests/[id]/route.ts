@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { parseInitData, validate } from '@twa.js/init-data-node';
 
 type Params = {
   params: {
@@ -29,4 +30,44 @@ export async function GET(req: NextRequest, { params }: Params) {
       { status: 500 }
     );
   }
+}
+
+export async function DELETE(req: NextRequest, { params }: Params) {
+  const { initData } = await req.json();
+
+  try {
+    validate(initData, process.env.BOT_TOKEN!);
+  } catch {
+    return NextResponse.json(
+      { message: 'Invalid initData passed' },
+      { status: 401 }
+    );
+  }
+
+  const parsedInitData = parseInitData(initData);
+
+  const { userChatId, id } = await prisma.rideRequest.findUniqueOrThrow({
+    where: {
+      id: Number(params.id),
+    },
+    select: {
+      id: true,
+      userChatId: true,
+    },
+  });
+
+  if (Number(userChatId) !== parsedInitData.user?.id) {
+    return NextResponse.json(
+      { message: 'You can only delete your own requests' },
+      { status: 403 }
+    );
+  }
+
+  await prisma.rideRequest.delete({
+    where: {
+      id,
+    },
+  });
+
+  return new NextResponse(null, { status: 204 });
 }

@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { parseInitData, validate } from '@twa.js/init-data-node';
 
 type Params = {
   params: {
@@ -28,4 +29,50 @@ export async function GET(req: NextRequest, { params }: Params) {
       { status: 500 }
     );
   }
+}
+
+export async function DELETE(req: NextRequest, { params }: Params) {
+  const initData = req.nextUrl.searchParams.get('initData');
+  if (initData === null) {
+    return NextResponse.json(
+      { message: 'No initData passed' },
+      { status: 401 }
+    );
+  }
+
+  try {
+    validate(initData, process.env.BOT_TOKEN!);
+  } catch {
+    return NextResponse.json(
+      { message: 'Invalid initData passed' },
+      { status: 401 }
+    );
+  }
+
+  const parsedInitData = parseInitData(initData);
+
+  const { userChatId, id } = await prisma.rideAnnouncement.findUniqueOrThrow({
+    where: {
+      id: Number(params.id),
+    },
+    select: {
+      id: true,
+      userChatId: true,
+    },
+  });
+
+  if (Number(userChatId) !== parsedInitData.user?.id) {
+    return NextResponse.json(
+      { message: 'You can only delete your own rides' },
+      { status: 403 }
+    );
+  }
+
+  await prisma.rideAnnouncement.delete({
+    where: {
+      id,
+    },
+  });
+
+  return new NextResponse(null, { status: 204 });
 }
