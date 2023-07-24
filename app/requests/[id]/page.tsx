@@ -22,6 +22,7 @@ export default function RideRequestPage() {
   if (error) {
     return (
       <main>
+        <Header />
         <p>An error occurred: {error.message}</p>
       </main>
     );
@@ -30,6 +31,7 @@ export default function RideRequestPage() {
   if (data === undefined) {
     return (
       <main>
+        <Header />
         <p>An unknown error occurred</p>
       </main>
     );
