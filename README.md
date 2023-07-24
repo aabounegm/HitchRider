@@ -1,39 +1,26 @@
 # HitchRider
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+HitchRider is a [Telegram Web App](https://core.telegram.org/bots/webapps) for connecting hitchhikers and drivers together. You can use it by going to [@hitchrider_bot](https://t.me/hitchrider_bot) and hitting `/start`.
 
-[ER Diagram](https://dbdiagram.io/d/648ded5002bd1c4a5ea57759).
-The [Next.js-Prisma-Postgres guide](https://vercel.com/guides/nextjs-prisma-postgres) on Vercel is followed.
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) hosted on Vercel.
 
 ## Getting Started
 
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Since most of the functionality depends on the web app running inside the Telegram client, you will need to either [use the test environment](https://core.telegram.org/bots/webapps#using-bots-in-the-test-environment) to access the app without using HTTPS, or use a proxy that provides HTTPS links that redirect to your localhost. To create such a proxy, follow these steps:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. In another terminal, run: `npx localtunnel --host https://loca.lt --port 3000 --subdomain hitch-rider`
+2. Change the url in `lib/telegram.ts:11` to point to the URL configured in the previous step (`https://hitch-rider.loca.lt`), but don't commit this change (so that Vercel doesn't redirect to it in production by mistake).
+3. In any HTTP client, `GET` `https://api.telegram.org/bot<BOT_TOKEN>/setWebhook?url=https://hitch-rider.loca.lt/api/telegram&secret_token=<SECRET_TOKEN>`, where `<BOT_TOKEN>` is the token from BotFather the `<SECRET_TOKEN>` corresponds to the value you assigned to the environment variable `TELEGRAM_SECRET_TOKEN`.
+4. After you're done with the development session, use a similar HTTP call to set it back to `https://hitch-rider.vercel.app/api/telegram`.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Note that this method is **not** recommended for use in production or when there is more than one developer working on the project. A proper dev setup is needed.
 
-## Learn More
+## Demo
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+_TODO_
