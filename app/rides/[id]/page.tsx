@@ -102,7 +102,7 @@ export default function RidePage() {
             }}
           />
         ) : (
-          <MainButton text="Contact The Rider" onClick={() => {}} />
+          <MainButton text="Contact the driver" onClick={() => {}} />
         )}
       </main>
     </>
