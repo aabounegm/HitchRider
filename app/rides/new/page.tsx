@@ -1,7 +1,7 @@
 'use client';
 import { BackButton, MainButton } from '@/lib/components/telegram';
-import { createRideAnnouncement, createRideRequest } from '@/lib/api/rides';
-import { tzIsoTimestamp } from '@/lib/date-utils';
+import { createRideAnnouncement } from '@/lib/api/rides';
+import { hourCeil, tzIsoTimestamp } from '@/lib/date-utils';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 
@@ -19,8 +19,7 @@ export default function NewRidePage() {
   const initialValues: Announcement = {
     from: '',
     to: '',
-    // TODO: ceil it to nearest 15 - 30 mins
-    time: tzIsoTimestamp(new Date()),
+    time: tzIsoTimestamp(hourCeil(new Date())),
     passengers: 1,
     carInfo: '',
   };
