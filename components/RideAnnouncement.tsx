@@ -26,7 +26,7 @@ export default function Ride({
       <h3 className="font-bold">Day:</h3>
       <p>{time.toLocaleDateString()}</p>
       <h3 className="font-bold">Leaves at:</h3>
-      <p>{time.toLocaleTimeString()}</p>
+      <p>{time.toLocaleTimeString(undefined, { timeStyle: 'short' })}</p>
       {/* recurrence && (
         <>
           <h3 className="font-bold">Recurrence:</h3>

@@ -78,7 +78,7 @@ export default function RidePage() {
           </div>
           <div className={classes}>
             <h3 className="font-bold">Leaves at:</h3>
-            <p>{time.toLocaleTimeString()}</p>
+            <p>{time.toLocaleTimeString(undefined, { timeStyle: 'short' })}</p>
           </div>
           <div className={classes}>
             <h3 className="font-bold">Car Info:</h3>
