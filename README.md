@@ -1,4 +1,4 @@
-<img src="./public/banner.png" alt="Logo" align="right" width="80" />
+<img src="./public/banner.png" alt="Logo" align="right" width="130" />
 
 # HitchRider
 
