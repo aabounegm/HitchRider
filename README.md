@@ -1,3 +1,5 @@
+<img src="./public/banner.png" alt="Logo" align="right" width="80" />
+
 # HitchRider
 
 HitchRider is a [Telegram Web App](https://core.telegram.org/bots/webapps) for connecting hitchhikers and drivers together. You can use it by going to [@hitchrider_bot](https://t.me/hitchrider_bot) and hitting `/start`.
