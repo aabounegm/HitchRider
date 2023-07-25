@@ -9,7 +9,7 @@ export default function Home() {
 
   return (
     <>
-      <Header />
+      <Header backUrl="/" />
       <h1 className="text-center font-medium border-b-2 mx-4">Rides</h1>
       <main className="p-4">
         <AnnouncementsList />

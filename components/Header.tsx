@@ -1,11 +1,22 @@
 import UserIcon from '~icons/fa/user.jsx';
 import { BackButton } from '@/lib/components/telegram';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-export default function Header() {
+type Props = {
+  /** The URL to go to when clicking the back button */
+  backUrl?: string;
+};
+
+export default function Header({ backUrl }: Props) {
+  const router = useRouter();
   return (
     <>
-      <BackButton />
+      {backUrl ? (
+        <BackButton onClick={() => router.replace(backUrl)} />
+      ) : (
+        <BackButton />
+      )}
       <header className="flex justify-between p-4 font-bold">
         <Link href="/" className="text-tg-text">
           Hitch Rider
