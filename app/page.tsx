@@ -1,5 +1,5 @@
 'use client';
-import NFT from '@/public/NFT.jpg';
+import logo from '@/public/logo.png';
 import Link from 'next/link';
 import Image from 'next/image';
 import 'react-tabs/style/react-tabs.css';
@@ -12,7 +12,7 @@ export default function Home() {
       </header>
       <main>
         <div className="flex flex-col mx-auto items-center gap-8 text-tg-text">
-          <Image src={NFT} alt="Logo" className="rounded-full w-1/2" />
+          <Image src={logo} alt="Logo" className="rounded-full w-1/2" />
           <div className="flex w-full flex-row justify-between px-16 pb-8">
             <Link
               className="px-10 py-2 bg-tg-button border-2 rounded-lg text-tg-button-text"
