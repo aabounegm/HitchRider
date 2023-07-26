@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@prisma/client": "5.0.0",
+    "@tonconnect/ui-react": "1.0.0-beta.6",
     "@twa-dev/sdk": "^6.7.0",
     "@twa.js/init-data-node": "^0.0.4",
     "@types/node": "20.3.1",
