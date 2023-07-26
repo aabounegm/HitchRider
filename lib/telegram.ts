@@ -15,13 +15,21 @@ bot.start(async (ctx) => {
     }),
     ctx.reply(
       'Welcome to HitchRider!\nTo get started, use one of the buttons below:',
-      Markup.inlineKeyboard([
-        Markup.button.webApp('🚗 Explore available rides', `${BASE_URL}/rides`),
-        Markup.button.webApp(
-          '🙋‍♂️ Find a travel companion',
-          `${BASE_URL}/requests`
-        ),
-      ])
+      Markup.inlineKeyboard(
+        [
+          Markup.button.webApp(
+            '🚗 Explore available rides',
+            `${BASE_URL}/rides`
+          ),
+          Markup.button.webApp(
+            '🙋‍♂️ Find a travel companion',
+            `${BASE_URL}/requests`
+          ),
+        ],
+        {
+          columns: 1,
+        }
+      )
     ),
   ]);
 });
