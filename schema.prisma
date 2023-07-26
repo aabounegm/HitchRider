@@ -17,6 +17,7 @@ model User {
     // CarInfo       String             @default("")
     requests      RideRequest[]
     announcements RideAnnouncement[]
+    tonAddress    String?
 
     @@map(name: "users")
 }
