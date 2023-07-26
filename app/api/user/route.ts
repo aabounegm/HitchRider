@@ -41,3 +41,39 @@ export async function PUT(req: NextRequest) {
     chatId: Number(user.chatId),
   });
 }
+
+export async function PATCH(req: NextRequest) {
+  const { initData, tonAddress } = await req.json();
+  try {
+    validate(initData, process.env.BOT_TOKEN!);
+  } catch {
+    return NextResponse.json(
+      { message: 'Invalid initData passed' },
+      { status: 401 }
+    );
+  }
+  const parsedInitData = parseInitData(initData);
+
+  if (parsedInitData.user == undefined) {
+    return NextResponse.json(
+      { message: 'Cannot find user in initData' },
+      { status: 401 }
+    );
+  }
+
+  const { id } = parsedInitData.user;
+
+  const user = await prisma.user.update({
+    data: {
+      tonAddress,
+    },
+    where: {
+      chatId: id,
+    },
+  });
+
+  return NextResponse.json({
+    ...user,
+    chatId: Number(user.chatId),
+  });
+}

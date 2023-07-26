@@ -1,9 +1,19 @@
 'use client';
+import { useTonAddress } from '@tonconnect/ui-react';
 import { BackButton, TonConnectButton } from '@/lib/components/telegram';
 import UserProfile from '@/components/Profile';
 import Link from 'next/link';
+import { useEffect } from 'react';
+import { updateTonAddress } from '@/lib/api/user';
 
 export default function Profile() {
+  const address = useTonAddress();
+
+  useEffect(() => {
+    if (address) updateTonAddress(address);
+    else updateTonAddress(null);
+  }, [address]);
+
   return (
     <>
       <BackButton />
