@@ -102,7 +102,7 @@ export default function RidePage() {
   return (
     <>
       <Header />
-      <main className="p-4 flex flex-col gap-8">
+      <main className="p-4 flex flex-col gap-4">
         <div className="text-center font-medium border-b-4">Ride Info</div>
         <div className="flex flex-col gap-4 px-4">
           <div className={classes}>
@@ -134,7 +134,13 @@ export default function RidePage() {
             <p>{carInfo}</p>
           </div>
         </div>
-        {price > 0 ? <button onClick={payDriver}>Pay the driver</button> : ''}
+        {price > 0 && chatID !== userChatId ? (
+          <button onClick={payDriver} className="rounded-lg p-2">
+            Pay the driver
+          </button>
+        ) : (
+          ''
+        )}
         {/* recurrence && (
             <>
               <h3 className="font-bold">Recurrence:</h3>
