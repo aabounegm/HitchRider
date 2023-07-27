@@ -11,6 +11,9 @@ export async function GET(req: NextRequest) {
           gte: new Date(),
         },
       },
+      orderBy: {
+        time: 'asc',
+      },
     });
     return NextResponse.json(
       rides.map((ride) => ({
