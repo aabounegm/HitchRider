@@ -1,6 +1,6 @@
 'use client';
-import { useTonAddress } from '@tonconnect/ui-react';
-import { BackButton, TonConnectButton } from '@/lib/components/telegram';
+import { useTonAddress, TonConnectButton } from '@tonconnect/ui-react';
+import { BackButton } from '@/lib/components/telegram';
 import UserProfile from '@/components/Profile';
 import Link from 'next/link';
 import { useEffect } from 'react';
