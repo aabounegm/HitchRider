@@ -26,9 +26,18 @@ export default function NewRidePage() {
     carInfo: '',
   };
 
-  function validate(values: Announcement) {
+  async function validate(values: Announcement) {
     const errors: Partial<Record<keyof Announcement, string>> = {};
-    // TODO
+    if (values.price) {
+      const res = await fetch(
+        '/api/user/' + window.Telegram.WebApp.initDataUnsafe.user?.id
+      );
+      const user = await res.json();
+      if (user.tonAddress == null) {
+        errors.price =
+          'You must connect a TON wallet in your profile before accepting payment!';
+      }
+    }
     return errors;
   }
 
@@ -73,6 +82,9 @@ export default function NewRidePage() {
               <span>Price per seat:</span>
               <Field type="number" name="price" min={0} />
             </label>
+            <ErrorMessage name="price">
+              {(msg: string) => <p className="text-red-500">{msg}</p>}
+            </ErrorMessage>
             <label className="flex justify-between items-center w-full">
               <span>Car info:</span>
               <Field type="text" name="carInfo" />
@@ -80,8 +92,8 @@ export default function NewRidePage() {
             <MainButton
               text="Announce"
               onClick={submitForm}
-              disabled={!isValid || isSubmitting}
-              progress={isSubmitting}
+              disabled={!isValid || isValidating || isSubmitting}
+              progress={isSubmitting || isValidating}
             />
           </Form>
         )}
