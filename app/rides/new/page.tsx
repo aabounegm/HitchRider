@@ -79,7 +79,11 @@ export default function NewRidePage() {
               <Field type="number" name="passengers" min={1} />
             </label>
             <label className="flex justify-between items-center w-full">
-              <span>Price per seat:</span>
+              <span>
+                Price per seat
+                <br />
+                (in nanoTONs):
+              </span>
               <Field type="number" name="price" min={0} />
             </label>
             <ErrorMessage name="price">
