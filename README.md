@@ -39,7 +39,7 @@ The features we plan to add in the future (in no particular order) are:
 
 Here is a YouTube video demonstrating the functionalities:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/wyaPcYA1sD0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[![Thumbnail](./public/screenshot.png)](https://youtu.be/wyaPcYA1sD0)
 
 ## Getting Started
 
