@@ -5,12 +5,14 @@ import useSWR from 'swr';
 import type { RideAnnouncement } from '@prisma/client';
 import Header from '@/components/Header';
 import { useRouter } from 'next/navigation';
-import { useTonConnectUI } from '@tonconnect/ui-react';
+import { useTonConnectUI, useTonAddress } from '@tonconnect/ui-react';
 
 export default function RidePage() {
   const params = useParams();
   const router = useRouter();
   const [tonUi, setTonUiOptions] = useTonConnectUI();
+  const myAddress = useTonAddress();
+
   const { data, isLoading, error } = useSWR<RideAnnouncement>(
     '/api/rides/' + params.id
   );
@@ -83,6 +85,10 @@ export default function RidePage() {
   }
 
   async function payDriver() {
+    if (!myAddress) {
+      showAlert('You must connect a TON wallet in your profile first!');
+      return;
+    }
     const res = await fetch('/api/user/' + userChatId);
     const { tonAddress } = await res.json();
     tonUi.sendTransaction({
