@@ -27,7 +27,7 @@ export async function createRideRequest(
 export async function createRideAnnouncement(
   ride: Omit<Prisma.RideAnnouncementCreateInput, 'user'>
 ): Promise<RideAnnouncement> {
-  const { from, to, time, passengers, carInfo } = ride;
+  const { from, to, time, passengers, carInfo, price } = ride;
   const res = await fetch('/api/rides', {
     method: 'POST',
     body: JSON.stringify({
@@ -37,6 +37,7 @@ export async function createRideAnnouncement(
         to,
         passengers,
         carInfo,
+        price,
         time: new Date(time),
       },
     }),

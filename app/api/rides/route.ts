@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { from, to, time, passengers, carInfo } =
+  const { from, to, time, passengers, carInfo, price } =
     rideAnnouncement as Prisma.RideAnnouncementCreateArgs['data'];
 
   const newRequest = await prisma.rideAnnouncement.create({
@@ -55,6 +55,7 @@ export async function POST(req: NextRequest) {
       from,
       to,
       time,
+      price,
       passengers,
       carInfo,
       userChatId: parsedInitData.user.id,

@@ -9,6 +9,7 @@ interface Announcement {
   from: string;
   to: string;
   time: string;
+  price: number;
   passengers?: number;
   carInfo?: string;
 }
@@ -20,6 +21,7 @@ export default function NewRidePage() {
     from: '',
     to: '',
     time: tzIsoTimestamp(hourCeil(new Date())),
+    price: 0,
     passengers: 1,
     carInfo: '',
   };
@@ -66,6 +68,10 @@ export default function NewRidePage() {
             <label className="flex justify-between items-center w-full">
               <span>Available seats:</span>
               <Field type="number" name="passengers" min={1} />
+            </label>
+            <label className="flex justify-between items-center w-full">
+              <span>Price per seat:</span>
+              <Field type="number" name="price" min={0} />
             </label>
             <label className="flex justify-between items-center w-full">
               <span>Car info:</span>
