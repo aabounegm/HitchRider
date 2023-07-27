@@ -5,10 +5,12 @@ import useSWR from 'swr';
 import type { RideAnnouncement } from '@prisma/client';
 import Header from '@/components/Header';
 import { useRouter } from 'next/navigation';
+import { useTonConnectUI } from '@tonconnect/ui-react';
 
 export default function RidePage() {
   const params = useParams();
   const router = useRouter();
+  const [tonUi, setTonUiOptions] = useTonConnectUI();
   const { data, isLoading, error } = useSWR<RideAnnouncement>(
     '/api/rides/' + params.id
   );
@@ -56,7 +58,7 @@ export default function RidePage() {
     userChatId: Number(data.userChatId),
   };
 
-  const { id, from, to, time, passengers, carInfo, userChatId } = ride;
+  const { id, from, to, time, passengers, price, carInfo, userChatId } = ride;
 
   async function confirmDeleting(confirmed: boolean) {
     if (!confirmed) return;
@@ -80,6 +82,21 @@ export default function RidePage() {
     openTelegramLink('https://t.me/' + username);
   }
 
+  async function payDriver() {
+    const res = await fetch('/api/user/' + userChatId);
+    const { tonAddress } = await res.json();
+    tonUi.sendTransaction({
+      messages: [
+        {
+          address: tonAddress,
+          amount: (price * passengers).toString(),
+        },
+      ],
+      // Valid for 5 minutes
+      validUntil: new Date().valueOf() + 5 * 60 * 1000,
+    });
+  }
+
   const chatID = user?.id;
   const classes = 'flex justify-between';
   return (
@@ -100,8 +117,10 @@ export default function RidePage() {
             <h3 className="font-bold">Available Seats:</h3>
             <p>{passengers}</p>
           </div>
-          {/* <h3 className="font-bold">Price per seat:</h3>
-              <p>{price || 'Free'}</p> */}
+          <div className={classes}>
+            <h3 className="font-bold">Price per seat:</h3>
+            <p>{price || 'Free'}</p>
+          </div>
           <div className={classes}>
             <h3 className="font-bold">Day:</h3>
             <p>{time.toLocaleDateString()}</p>
@@ -115,6 +134,7 @@ export default function RidePage() {
             <p>{carInfo}</p>
           </div>
         </div>
+        {price > 0 ? <button onClick={payDriver}>Pay the driver</button> : ''}
         {/* recurrence && (
             <>
               <h3 className="font-bold">Recurrence:</h3>
