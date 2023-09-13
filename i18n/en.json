@@ -1,0 +1,80 @@
+{
+  "common": {
+    "title": "HitchRider",
+    "loading": "Loading...",
+    "error": "An error has occurred",
+    "unknown error": "An unknown error has occurred"
+  },
+  "home": {
+    "title": "Hitch Rider",
+    "rides": "Rides",
+    "requests": "Requests",
+    "profile": "My profile",
+    "trips": "My trips"
+  },
+  "rides": {
+    "title": "Rides",
+    "request button": "Request a new lift",
+    "no rides": "No rides found",
+    "from": "From",
+    "to": "To",
+    "available seats": "Available seats",
+    "day": "Day",
+    "time": "Leaves at",
+    "details": {
+      "title": "Ride info",
+      "price": "Price per seat",
+      "free": "Free",
+      "delete button": "Delete ride",
+      "delete failed": "Failed to delete ride",
+      "confirm delete": "Are you sure you want to delete this ride?",
+      "contact button": "Contact the driver",
+      "car info": "Car info"
+    },
+    "new": {
+      "title": "Announce a ride",
+      "wallet disconnected": "You must connect a TON wallet in your profile before accepting payment!",
+      "from": "From",
+      "to": "To",
+      "available seats": "Available seats",
+      "day-time": "Date/time",
+      "price": "Price per seat\n(in nanoTONs)",
+      "car info": "Car info",
+      "announce button": "Announce"
+    }
+  },
+  "requests": {
+    "title": "Requests",
+    "add button": "Add a new ride",
+    "no requests": "No requests found",
+    "from": "From",
+    "to": "To",
+    "needed seats": "Required seats",
+    "day": "Day",
+    "time": "Leaves at",
+    "details": {
+      "title": "Request Info",
+      "delete button": "Delete request",
+      "delete failed": "Failed to delete request",
+      "delete confirmation": "Are you sure you want to delete this request?",
+      "contact button": "Contact the hitchhiker"
+    },
+    "new": {
+      "title": "Request a lift",
+      "from": "From",
+      "to": "To",
+      "available seats": "Passengers",
+      "day-time": "Date/time",
+      "submit button": "Request"
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "rides": "Rides taken",
+    "announcements": "Announcements made",
+    "requests": "Requests submitted",
+    "name": "Name",
+    "username": "Username",
+    "car info": "Car info"
+  }
+}
