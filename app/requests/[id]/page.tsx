@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import type { RideRequest } from '@prisma/client';
 import Header from '@/components/Header';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 export default function RideRequestPage() {
   const params = useParams();
@@ -12,9 +13,11 @@ export default function RideRequestPage() {
   const { data, isLoading, error } = useSWR<RideRequest>(
     '/api/requests/' + params.id
   );
+  const { t } = useTranslation(['requests', 'common']);
+
   if (typeof window === 'undefined') {
     // Useless SSR
-    return <p>Loading...</p>;
+    return <p>{t('loading', { ns: 'common' })}</p>;
   }
   const { user } = window.Telegram.WebApp.initDataUnsafe;
   const { initData, showAlert, showConfirm, openTelegramLink } =
@@ -23,7 +26,7 @@ export default function RideRequestPage() {
   if (isLoading) {
     return (
       <main>
-        <p>Loading...</p>
+        <p>{t('loading', { ns: 'common' })}</p>
       </main>
     );
   }
@@ -32,7 +35,9 @@ export default function RideRequestPage() {
     return (
       <main>
         <Header />
-        <p>An error occurred: {error.message}</p>
+        <p>
+          {t('error', { ns: 'common' })}: {error.message}
+        </p>
       </main>
     );
   }
@@ -41,7 +46,7 @@ export default function RideRequestPage() {
     return (
       <main>
         <Header />
-        <p>An unknown error occurred</p>
+        <p>{t('unknown error', { ns: 'common' })}</p>
       </main>
     );
   }
@@ -63,7 +68,7 @@ export default function RideRequestPage() {
     );
     if (!res.ok) {
       const err = await res.json();
-      showAlert(`Failed to delete ride: ${err.message}`);
+      showAlert(`${t('details.delete failed')}: ${err.message}`);
       return;
     }
     router.back();
@@ -82,26 +87,28 @@ export default function RideRequestPage() {
     <>
       <Header />
       <main className="p-4 flex flex-col gap-8">
-        <div className="text-center font-medium border-b-4">Request Info</div>
+        <div className="text-center font-medium border-b-4">
+          {t('details.title')}
+        </div>
         <div className="flex flex-col gap-4 px-4">
           <div className={classes}>
-            <h3 className="font-bold">From:</h3>
+            <h3 className="font-bold">{t('from')}:</h3>
             <p>{from}</p>
           </div>
           <div className={classes}>
-            <h3 className="font-bold">To:</h3>
+            <h3 className="font-bold">{t('to')}:</h3>
             <p>{to}</p>
           </div>
           <div className={classes}>
-            <h3 className="font-bold">Required Seats:</h3>
+            <h3 className="font-bold">{t('needed seats')}:</h3>
             <p>{passengers}</p>
           </div>
           <div className={classes}>
-            <h3 className="font-bold">Day:</h3>
+            <h3 className="font-bold">{t('day')}:</h3>
             <p>{time.toLocaleDateString()}</p>
           </div>
           <div className={classes}>
-            <h3 className="font-bold">Leaves at:</h3>
+            <h3 className="font-bold">{t('time')}:</h3>
             <p>{time.toLocaleTimeString(undefined, { timeStyle: 'short' })}</p>
           </div>
           {/* recurrence && (
@@ -113,17 +120,17 @@ export default function RideRequestPage() {
         </div>
         {chatID === userChatId ? (
           <MainButton
-            text="Delete request"
+            text={t('details.delete button')}
             color="#ff0000"
             onClick={() => {
-              showConfirm(
-                'Are you sure you want to delete this request?',
-                confirmDeleting
-              );
+              showConfirm(t('details.delete confirmation'), confirmDeleting);
             }}
           />
         ) : (
-          <MainButton text="Contact the hitchhiker" onClick={contactRider} />
+          <MainButton
+            text={t('details.contact button')}
+            onClick={contactRider}
+          />
         )}
       </main>
     </>

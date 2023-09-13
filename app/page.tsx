@@ -2,12 +2,15 @@
 import logo from '@/public/logo.png';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useTranslation } from 'react-i18next';
 
 export default function Home() {
+  const { t } = useTranslation('home');
+
   return (
     <>
       <header className="text-2xl text-center font-bold">
-        <h1>Hitch Rider</h1>
+        <h1>{t('title')}</h1>
       </header>
       <main>
         <div className="flex flex-col mx-auto items-center gap-8 text-tg-text">
@@ -17,13 +20,13 @@ export default function Home() {
               className="px-10 py-2 bg-tg-button border-2 rounded-lg text-tg-button-text"
               href="/rides"
             >
-              Rides
+              {t('rides')}
             </Link>
             <Link
               className="px-10 py-2 border-2 bg-tg-button rounded-lg text-tg-button-text"
               href="/requests"
             >
-              Requests
+              {t('requests')}
             </Link>
           </div>
         </div>
@@ -32,9 +35,11 @@ export default function Home() {
             className="p-2 px-16 border-b-2 text-left bg-tg-button text-tg-button-text"
             href="/profile"
           >
-            My Profile
+            {t('profile')}
           </Link>
-          <button className="border-b-2 p-2 px-16 text-left">My Trips</button>
+          <button className="border-b-2 p-2 px-16 text-left">
+            {t('trips')}
+          </button>
         </div>
       </main>
     </>
