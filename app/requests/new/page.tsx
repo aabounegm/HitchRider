@@ -4,6 +4,7 @@ import { BackButton, MainButton } from '@/lib/components/telegram';
 import { tzIsoTimestamp, hourCeil } from '@/lib/date-utils';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 interface Request {
   from: string;
@@ -14,6 +15,7 @@ interface Request {
 
 export default function NewRequestPage() {
   const router = useRouter();
+  const { t } = useTranslation('requests', { keyPrefix: 'new' });
 
   const initialValues: Request = {
     from: '',
@@ -37,7 +39,7 @@ export default function NewRequestPage() {
   return (
     <main className="p-2">
       <BackButton />
-      <h1 className="text-xl">Request a lift</h1>
+      <h1 className="text-xl">{t('title')}</h1>
       <Formik
         initialValues={initialValues}
         onSubmit={submit}
@@ -46,24 +48,24 @@ export default function NewRequestPage() {
         {({ isSubmitting, isValid, isValidating, submitForm }) => (
           <Form className="flex flex-col gap-3 mt-3">
             <label className="flex justify-between items-center w-full">
-              <span>From:</span>
+              <span>{t('from')}:</span>
               <Field type="text" name="from" required minLength="3"></Field>
             </label>
             {/* <ErrorMessage name="from" /> */}
             <label className="flex justify-between items-center w-full">
-              <span>To:</span>
+              <span>{t('to')}:</span>
               <Field type="text" name="to" required></Field>
             </label>
             <label className="flex justify-between items-center w-full">
-              <span>Date/time:</span>
+              <span>{t('day-time')}:</span>
               <Field type="datetime-local" name="time"></Field>
             </label>
             <label className="flex justify-between items-center w-full">
-              <span>Passengers:</span>
+              <span>{t('available seats')}:</span>
               <Field type="number" name="passengers" min={1} />
             </label>
             <MainButton
-              text="Request"
+              text={t('submit button')}
               onClick={submitForm}
               disabled={!isValid || isSubmitting}
               progress={isSubmitting}

@@ -6,19 +6,21 @@ import type { RideAnnouncement } from '@prisma/client';
 import Header from '@/components/Header';
 import { useRouter } from 'next/navigation';
 import { useTonConnectUI, useTonAddress } from '@tonconnect/ui-react';
+import { useTranslation } from 'react-i18next';
 
 export default function RidePage() {
   const params = useParams();
   const router = useRouter();
   const [tonUi, setTonUiOptions] = useTonConnectUI();
   const myAddress = useTonAddress();
+  const { t } = useTranslation(['rides', 'common']);
 
   const { data, isLoading, error } = useSWR<RideAnnouncement>(
     '/api/rides/' + params.id
   );
   if (typeof window === 'undefined') {
     // Useless SSR
-    return <p>Loading...</p>;
+    return <p>{t('loading', { ns: 'common' })}</p>;
   }
   // const { userData } = useSWR<User>('/api/user');
   const { user } = window.Telegram.WebApp.initDataUnsafe;
@@ -30,7 +32,7 @@ export default function RidePage() {
       <>
         <Header />
         <main>
-          <p>Loading...</p>
+          <p>{t('loading', { ns: 'common' })}</p>
         </main>
       </>
     );
@@ -40,7 +42,9 @@ export default function RidePage() {
     return (
       <main>
         <Header />
-        <p>An error occurred: {error.message}</p>
+        <p>
+          {t('error', { ns: 'common' })}: {error.message}
+        </p>
       </main>
     );
   }
@@ -49,7 +53,7 @@ export default function RidePage() {
     return (
       <main>
         <Header />
-        <p>An unknown error occurred</p>
+        <p>{t('unknown error', { ns: 'common' })}</p>
       </main>
     );
   }
@@ -72,7 +76,7 @@ export default function RidePage() {
     );
     if (!res.ok) {
       const err = await res.json();
-      showAlert(`Failed to delete ride: ${err.message}`);
+      showAlert(`${t('details.delete failed')}: ${err.message}`);
       return;
     }
     router.back();
@@ -109,34 +113,36 @@ export default function RidePage() {
     <>
       <Header />
       <main className="p-4 flex flex-col gap-4">
-        <div className="text-center font-medium border-b-4">Ride Info</div>
+        <div className="text-center font-medium border-b-4">
+          {t('details.title')}
+        </div>
         <div className="flex flex-col gap-4 px-4">
           <div className={classes}>
-            <h3 className="font-bold">From:</h3>
+            <h3 className="font-bold">{t('from')}:</h3>
             <p>{from}</p>
           </div>
           <div className={classes}>
-            <h3 className="font-bold">To:</h3>
+            <h3 className="font-bold">{t('to')}:</h3>
             <p>{to}</p>
           </div>
           <div className={classes}>
-            <h3 className="font-bold">Available Seats:</h3>
+            <h3 className="font-bold">{t('available seats')}:</h3>
             <p>{passengers}</p>
           </div>
           <div className={classes}>
-            <h3 className="font-bold">Price per seat:</h3>
-            <p>{price || 'Free'}</p>
+            <h3 className="font-bold">{t('details.price')}:</h3>
+            <p>{price || t('details.free')}</p>
           </div>
           <div className={classes}>
-            <h3 className="font-bold">Day:</h3>
+            <h3 className="font-bold">{t('day')}:</h3>
             <p>{time.toLocaleDateString()}</p>
           </div>
           <div className={classes}>
-            <h3 className="font-bold">Leaves at:</h3>
+            <h3 className="font-bold">{t('time')}:</h3>
             <p>{time.toLocaleTimeString(undefined, { timeStyle: 'short' })}</p>
           </div>
           <div className={classes}>
-            <h3 className="font-bold">Car Info:</h3>
+            <h3 className="font-bold">{t('details.car info')}:</h3>
             <p>{carInfo}</p>
           </div>
         </div>
@@ -155,17 +161,17 @@ export default function RidePage() {
           ) */}
         {chatID === userChatId ? (
           <MainButton
-            text="Delete ride"
+            text={t('details.delete button')}
             color="#ff0000"
             onClick={() => {
-              showConfirm(
-                'Are you sure you want to delete this ride?',
-                confirmDeleting
-              );
+              showConfirm(t('details.confirm delete'), confirmDeleting);
             }}
           />
         ) : (
-          <MainButton text="Contact the driver" onClick={contactDriver} />
+          <MainButton
+            text={t('details.contact button')}
+            onClick={contactDriver}
+          />
         )}
       </main>
     </>

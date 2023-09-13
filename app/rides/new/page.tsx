@@ -4,6 +4,7 @@ import { createRideAnnouncement } from '@/lib/api/rides';
 import { hourCeil, tzIsoTimestamp } from '@/lib/date-utils';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 interface Announcement {
   from: string;
@@ -16,6 +17,7 @@ interface Announcement {
 
 export default function NewRidePage() {
   const router = useRouter();
+  const { t } = useTranslation('rides', { keyPrefix: 'new' });
 
   const initialValues: Announcement = {
     from: '',
@@ -34,8 +36,7 @@ export default function NewRidePage() {
       );
       const user = await res.json();
       if (user.tonAddress == null) {
-        errors.price =
-          'You must connect a TON wallet in your profile before accepting payment!';
+        errors.price = t('wallet disconnected');
       }
     }
     return errors;
@@ -53,7 +54,7 @@ export default function NewRidePage() {
   return (
     <main className="p-2">
       <BackButton />
-      <h1 className="text-xl">Announce a ride</h1>
+      <h1 className="text-xl">{t('title')}</h1>
       <Formik
         initialValues={initialValues}
         onSubmit={submit}
@@ -62,39 +63,35 @@ export default function NewRidePage() {
         {({ isSubmitting, isValid, isValidating, submitForm }) => (
           <Form className="flex flex-col gap-3 mt-3">
             <label className="flex justify-between items-center w-full">
-              <span>From:</span>
+              <span>{t('from')}:</span>
               <Field type="text" name="from" required minLength="3"></Field>
             </label>
             {/* <ErrorMessage name="from" /> */}
             <label className="flex justify-between items-center w-full">
-              <span>To:</span>
+              <span>{t('to')}:</span>
               <Field type="text" name="to" required></Field>
             </label>
             <label className="flex justify-between items-center w-full">
-              <span>Date/time:</span>
+              <span>{t('day-time')}:</span>
               <Field type="datetime-local" name="time"></Field>
             </label>
             <label className="flex justify-between items-center w-full">
-              <span>Available seats:</span>
+              <span>{t('available seats')}:</span>
               <Field type="number" name="passengers" min={1} />
             </label>
             <label className="flex justify-between items-center w-full">
-              <span>
-                Price per seat
-                <br />
-                (in nanoTONs):
-              </span>
+              <span style={{ whiteSpace: 'pre-line' }}>{t('price')}</span>
               <Field type="number" name="price" min={0} />
             </label>
             <ErrorMessage name="price">
               {(msg: string) => <p className="text-red-500">{msg}</p>}
             </ErrorMessage>
             <label className="flex justify-between items-center w-full">
-              <span>Car info:</span>
+              <span>{t('car info')}:</span>
               <Field type="text" name="carInfo" />
             </label>
             <MainButton
-              text="Announce"
+              text={t('announce button')}
               onClick={submitForm}
               disabled={!isValid || isValidating || isSubmitting}
               progress={isSubmitting || isValidating}

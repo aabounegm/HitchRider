@@ -27,7 +27,7 @@ export default function RootLayout({
     // TODO: move this to the backend to be done before any API request
     ensureUserExists();
     i18n.changeLanguage(
-      window.Telegram.WebApp.initDataUnsafe.user?.language_code
+      window.Telegram.WebApp.initDataUnsafe.user?.language_code ?? 'en'
     );
   }, []);
 
