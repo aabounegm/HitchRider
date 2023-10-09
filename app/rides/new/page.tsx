@@ -1,4 +1,6 @@
 'use client';
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+import type { NextRequest } from 'next/server';
 import { BackButton, MainButton } from '@/lib/components/telegram';
 import { createRideAnnouncement } from '@/lib/api/rides';
 import { hourCeil, tzIsoTimestamp } from '@/lib/date-utils';
@@ -15,7 +17,20 @@ interface Announcement {
   carInfo?: string;
 }
 
-export default function NewRidePage() {
+type Geo = NextRequest['geo'];
+
+export const getServerSideProps = (async ({ query, req }) => {
+  return { props: { geo: JSON.parse(query.geo as string) as Geo } };
+}) satisfies GetServerSideProps<{
+  geo: Geo;
+}>;
+
+export default function NewRidePage({
+  geo,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  console.log('Geo info:', geo);
+  const { city, region, country, latitude, longitude } = geo ?? {};
+  const name = [city, region, country].filter((s) => !!s).join(', ');
   const router = useRouter();
   const { t } = useTranslation('rides', { keyPrefix: 'new' });
 
