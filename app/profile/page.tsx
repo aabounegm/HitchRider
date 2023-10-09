@@ -25,7 +25,7 @@ export default function Profile() {
             {t('title')}
           </Link>
         </div>
-        <TonConnectButton className="mt-3" />
+        {/* <TonConnectButton className="mt-3" /> */}
         <UserProfile />
       </main>
     </>

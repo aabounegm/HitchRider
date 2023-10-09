@@ -89,10 +89,10 @@ export default function RidePage() {
   }
 
   async function payDriver() {
-    if (!myAddress) {
-      showAlert('You must connect a TON wallet in your profile first!');
-      return;
-    }
+    // if (!myAddress) {
+    //   showAlert('You must connect a TON wallet in your profile first!');
+    //   return;
+    // }
     const res = await fetch('/api/user/' + userChatId);
     const { tonAddress } = await res.json();
     tonUi.sendTransaction({
@@ -129,10 +129,10 @@ export default function RidePage() {
             <h3 className="font-bold">{t('available seats')}:</h3>
             <p>{passengers}</p>
           </div>
-          <div className={classes}>
+          {/* <div className={classes}>
             <h3 className="font-bold">{t('details.price')}:</h3>
             <p>{price || t('details.free')}</p>
-          </div>
+          </div> */}
           <div className={classes}>
             <h3 className="font-bold">{t('day')}:</h3>
             <p>{time.toLocaleDateString()}</p>
@@ -146,13 +146,13 @@ export default function RidePage() {
             <p>{carInfo}</p>
           </div>
         </div>
-        {price > 0 && chatID !== userChatId ? (
+        {/* {price > 0 && chatID !== userChatId ? (
           <button onClick={payDriver} className="rounded-lg p-2">
             Pay the driver
           </button>
         ) : (
           ''
-        )}
+        )} */}
         {/* recurrence && (
             <>
               <h3 className="font-bold">Recurrence:</h3>

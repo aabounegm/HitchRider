@@ -1,10 +1,17 @@
 'use client';
+import MapModal from '@/components/MapModal';
 import { createRideRequest } from '@/lib/api/rides';
 import { BackButton, MainButton } from '@/lib/components/telegram';
 import { tzIsoTimestamp, hourCeil } from '@/lib/date-utils';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import Button from '@mui/material/Button';
+import type { NextRequest } from 'next/server';
+import type { Coords } from '@/components/Map';
+
+type Geo = NextRequest['geo'];
 
 interface Request {
   from: string;
@@ -16,6 +23,14 @@ interface Request {
 export default function NewRequestPage() {
   const router = useRouter();
   const { t } = useTranslation('requests', { keyPrefix: 'new' });
+
+  const [open, setOpen] = React.useState(false);
+  const [coords, setCoords] = useState<Coords>({ lat: 10, lng: 106 });
+  const handleOpen = () => setOpen(true);
+  const handleClose = (coords: Coords) => {
+    setCoords(coords);
+    setOpen(false);
+  };
 
   const initialValues: Request = {
     from: '',
@@ -36,6 +51,8 @@ export default function NewRequestPage() {
     router.push(`/requests/${request.id}`);
   }
 
+  useEffect(() => {}, []);
+
   return (
     <main className="p-2">
       <BackButton />
@@ -49,7 +66,9 @@ export default function NewRequestPage() {
           <Form className="flex flex-col gap-3 mt-3">
             <label className="flex justify-between items-center w-full">
               <span>{t('from')}:</span>
-              <Field type="text" name="from" required minLength="3"></Field>
+              <div>
+                <Button onClick={handleOpen}>From map</Button>
+              </div>
             </label>
             {/* <ErrorMessage name="from" /> */}
             <label className="flex justify-between items-center w-full">
@@ -73,6 +92,9 @@ export default function NewRequestPage() {
           </Form>
         )}
       </Formik>
+      <div className="m-5">
+        <MapModal open={open} handleClose={handleClose} />
+      </div>
     </main>
   );
 }

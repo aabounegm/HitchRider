@@ -12,6 +12,9 @@
     "format:write": "prettier --write ."
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.12",
     "@prisma/client": "5.0.0",
     "@tonconnect/ui-react": "1.0.0-beta.6",
     "@twa-dev/sdk": "^6.7.0",
@@ -28,6 +31,7 @@
     "postcss": "^8.4.27",
     "react": "^18.2.0",
     "react-dom": "18.2.0",
+    "react-google-map-picker": "^1.2.3",
     "react-i18next": "^13.2.2",
     "swr": "^2.2.0",
     "tailwindcss": "^3.3.3",
@@ -44,5 +48,9 @@
     "prettier": "^2.8.8",
     "prisma": "^5.0.0",
     "unplugin-icons": "^0.16.5"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   }
 }

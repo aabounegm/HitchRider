@@ -5,7 +5,7 @@ import { BackButton, MainButton } from '@/lib/components/telegram';
 import { createRideAnnouncement } from '@/lib/api/rides';
 import { hourCeil, tzIsoTimestamp } from '@/lib/date-utils';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
 interface Announcement {
@@ -19,15 +19,9 @@ interface Announcement {
 
 type Geo = NextRequest['geo'];
 
-export const getServerSideProps = (async ({ query, req }) => {
-  return { props: { geo: JSON.parse(query.geo as string) as Geo } };
-}) satisfies GetServerSideProps<{
-  geo: Geo;
-}>;
-
-export default function NewRidePage({
-  geo,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function NewRidePage() {
+  const params = useSearchParams();
+  const geo = JSON.parse(params.get('geo')!) as Geo;
   console.log('Geo info:', geo);
   const { city, region, country, latitude, longitude } = geo ?? {};
   const name = [city, region, country].filter((s) => !!s).join(', ');
@@ -45,15 +39,15 @@ export default function NewRidePage({
 
   async function validate(values: Announcement) {
     const errors: Partial<Record<keyof Announcement, string>> = {};
-    if (values.price) {
-      const res = await fetch(
-        '/api/user/' + window.Telegram.WebApp.initDataUnsafe.user?.id
-      );
-      const user = await res.json();
-      if (user.tonAddress == null) {
-        errors.price = t('wallet disconnected');
-      }
-    }
+    // if (values.price) {
+    //   const res = await fetch(
+    //     '/api/user/' + window.Telegram.WebApp.initDataUnsafe.user?.id
+    //   );
+    //   const user = await res.json();
+    //   if (user.tonAddress == null) {
+    //     errors.price = t('wallet disconnected');
+    //   }
+    // }
     return errors;
   }
 
@@ -94,13 +88,13 @@ export default function NewRidePage({
               <span>{t('available seats')}:</span>
               <Field type="number" name="passengers" min={1} />
             </label>
-            <label className="flex justify-between items-center w-full">
+            {/* <label className="flex justify-between items-center w-full">
               <span style={{ whiteSpace: 'pre-line' }}>{t('price')}</span>
               <Field type="number" name="price" min={0} />
             </label>
             <ErrorMessage name="price">
               {(msg: string) => <p className="text-red-500">{msg}</p>}
-            </ErrorMessage>
+            </ErrorMessage> */}
             <label className="flex justify-between items-center w-full">
               <span>{t('car info')}:</span>
               <Field type="text" name="carInfo" />
