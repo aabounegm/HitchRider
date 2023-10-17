@@ -30,7 +30,7 @@ export default function NewRidePage() {
 
   async function validate(values: Announcement) {
     const errors: Partial<Record<keyof Announcement, string>> = {};
-    if (values.price) {
+    /* if (values.price) {
       const res = await fetch(
         '/api/user/' + window.Telegram.WebApp.initDataUnsafe.user?.id
       );
@@ -38,7 +38,7 @@ export default function NewRidePage() {
       if (user.tonAddress == null) {
         errors.price = t('wallet disconnected');
       }
-    }
+    } */
     return errors;
   }
 

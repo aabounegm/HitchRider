@@ -1,5 +1,5 @@
 'use client';
-import { TonConnectUIProvider } from '@tonconnect/ui-react';
+// import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { ensureUserExists } from '@/lib/api/user';
 import './globals.css';
 import { Inter } from 'next/font/google';
@@ -43,9 +43,9 @@ export default function RootLayout({
             fetcher,
           }}
         >
-          <TonConnectUIProvider manifestUrl="https://hitch-rider.vercel.app/tonconnect-manifest.json">
+          {/* <TonConnectUIProvider manifestUrl="https://hitch-rider.vercel.app/tonconnect-manifest.json"> */}
             {children}
-          </TonConnectUIProvider>
+          {/* </TonConnectUIProvider> */}
         </SWRConfig>
       </body>
     </html>

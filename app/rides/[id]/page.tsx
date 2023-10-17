@@ -5,14 +5,14 @@ import useSWR from 'swr';
 import type { RideAnnouncement } from '@prisma/client';
 import Header from '@/components/Header';
 import { useRouter } from 'next/navigation';
-import { useTonConnectUI, useTonAddress } from '@tonconnect/ui-react';
+// import { useTonConnectUI, useTonAddress } from '@tonconnect/ui-react';
 import { useTranslation } from 'react-i18next';
 
 export default function RidePage() {
   const params = useParams();
   const router = useRouter();
-  const [tonUi, setTonUiOptions] = useTonConnectUI();
-  const myAddress = useTonAddress();
+  // const [tonUi, setTonUiOptions] = useTonConnectUI();
+  // const myAddress = useTonAddress();
   const { t } = useTranslation(['rides', 'common']);
 
   const { data, isLoading, error } = useSWR<RideAnnouncement>(
@@ -88,7 +88,7 @@ export default function RidePage() {
     openTelegramLink('https://t.me/' + username);
   }
 
-  async function payDriver() {
+  /* async function payDriver() {
     if (!myAddress) {
       showAlert('You must connect a TON wallet in your profile first!');
       return;
@@ -105,7 +105,7 @@ export default function RidePage() {
       // Valid for 5 minutes
       validUntil: new Date().valueOf() + 5 * 60 * 1000,
     });
-  }
+  } */
 
   const chatID = user?.id;
   const classes = 'flex justify-between';
@@ -146,13 +146,13 @@ export default function RidePage() {
             <p>{carInfo}</p>
           </div>
         </div>
-        {price > 0 && chatID !== userChatId ? (
+        {/* {price > 0 && chatID !== userChatId ? (
           <button onClick={payDriver} className="rounded-lg p-2">
             Pay the driver
           </button>
         ) : (
           ''
-        )}
+        )} */}
         {/* recurrence && (
             <>
               <h3 className="font-bold">Recurrence:</h3>

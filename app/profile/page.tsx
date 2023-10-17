@@ -1,20 +1,20 @@
 'use client';
-import { useTonAddress, TonConnectButton } from '@tonconnect/ui-react';
+// import { useTonAddress, TonConnectButton } from '@tonconnect/ui-react';
 import { BackButton } from '@/lib/components/telegram';
 import UserProfile from '@/components/Profile';
 import Link from 'next/link';
 import { useEffect } from 'react';
-import { updateTonAddress } from '@/lib/api/user';
+// import { updateTonAddress } from '@/lib/api/user';
 import { useTranslation } from 'react-i18next';
 
 export default function Profile() {
-  const address = useTonAddress();
+  // const address = useTonAddress();
   const { t } = useTranslation('common');
 
-  useEffect(() => {
-    if (address) updateTonAddress(address);
-    else updateTonAddress(null);
-  }, [address]);
+  // useEffect(() => {
+  //   if (address) updateTonAddress(address);
+  //   else updateTonAddress(null);
+  // }, [address]);
 
   return (
     <>
@@ -25,7 +25,7 @@ export default function Profile() {
             {t('title')}
           </Link>
         </div>
-        <TonConnectButton className="mt-3" />
+        {/* <TonConnectButton className="mt-3" /> */}
         <UserProfile />
       </main>
     </>
