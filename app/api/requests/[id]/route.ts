@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { parseInitData, validate } from '@twa.js/init-data-node';
+import { parse, validate } from '@tma.js/init-data-node';
 
 type Params = {
   params: {
@@ -44,7 +44,7 @@ export async function DELETE(req: NextRequest, { params }: Params) {
     );
   }
 
-  const parsedInitData = parseInitData(initData);
+  const parsedInitData = parse(initData);
 
   const { userChatId, id } = await prisma.rideRequest.findUniqueOrThrow({
     where: {

@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import type { Prisma } from '@prisma/client';
-import { parseInitData, validate } from '@twa.js/init-data-node';
+import { parse, validate } from '@tma.js/init-data-node';
 import prisma from '@/lib/prisma';
 
 export async function GET(req: NextRequest) {
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
       { status: 401 }
     );
   }
-  const parsedInitData = parseInitData(initData);
+  const parsedInitData = parse(initData);
 
   if (parsedInitData.user == undefined) {
     return NextResponse.json(
