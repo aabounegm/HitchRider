@@ -1,11 +1,12 @@
 'use client';
 import useSWR from 'swr';
-import type { RideRequest } from '@prisma/client';
+import type { RideRequestResult } from '@/lib/types/request';
 import Request from '@/components/RideRequest';
 import { useTranslation } from 'react-i18next';
 
 export default function RidesList() {
-  const { isLoading, error, data } = useSWR<RideRequest[]>('/api/requests');
+  const { isLoading, error, data } =
+    useSWR<RideRequestResult[]>('/api/requests');
   const { t } = useTranslation(['requests', 'common']);
 
   if (isLoading) {

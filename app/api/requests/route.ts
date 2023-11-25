@@ -1,23 +1,25 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import type { Prisma } from '@prisma/client';
+import type { RideRequestParams, RideQueryResult } from '@/lib/types/request';
 import { parse, validate } from '@tma.js/init-data-node';
 import prisma from '@/lib/prisma';
+import { pointToCoords } from './utils';
 
 export async function GET(req: NextRequest) {
   try {
-    const rides = await prisma.rideRequest.findMany({
-      where: {
-        time: {
-          gte: new Date(),
-        },
-      },
-      orderBy: {
-        time: 'asc',
-      },
-    });
+    const rides: RideQueryResult[] = await prisma.$queryRaw`
+        SELECT "id", "from"::Text, "to"::Text, "time", "passengers", "userChatId"
+        FROM requests
+        WHERE "time" >= now()
+        ORDER BY "time" ASC`;
+
     return NextResponse.json(
       rides.map((ride) => ({
         ...ride,
+        from: {
+          coords: pointToCoords(ride.from),
+          // TODO
+          address: pointToCoords(ride.from).toString(),
+        },
         userChatId: Number(ride.userChatId),
       }))
     );
@@ -49,21 +51,13 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { from, to, time, passengers } =
-    rideRequest as Prisma.RideRequestCreateArgs['data'];
+  const { from, to, time, passengers } = rideRequest as RideRequestParams;
 
-  const newRequest = await prisma.rideRequest.create({
-    data: {
-      from,
-      to,
-      time,
-      passengers,
-      userChatId: parsedInitData.user.id,
-    },
-  });
+  const newRequest: [{ id: number }] = await prisma.$queryRaw`
+    INSERT INTO requests ("from", "to", "time", "passengers", "userChatId")
+    VALUES (point(${from.coords[0]}, ${from.coords[1]}), ${to}, ${time}::timestamptz,
+      ${passengers}, ${parsedInitData.user.id})
+    RETURNING "id"`;
 
-  return NextResponse.json({
-    ...newRequest,
-    userChatId: Number(newRequest.userChatId),
-  });
+  return NextResponse.json(newRequest[0]);
 }

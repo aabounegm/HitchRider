@@ -2,7 +2,7 @@
 import { useParams } from 'next/navigation';
 import { MainButton } from '@/lib/components/telegram';
 import useSWR from 'swr';
-import type { RideRequest } from '@prisma/client';
+import type { RideRequestResult } from '@/lib/types/request';
 import Header from '@/components/Header';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 export default function RideRequestPage() {
   const params = useParams();
   const router = useRouter();
-  const { data, isLoading, error } = useSWR<RideRequest>(
+  const { data, isLoading, error } = useSWR<RideRequestResult>(
     '/api/requests/' + params.id
   );
   const { t } = useTranslation(['requests', 'common']);
@@ -93,7 +93,9 @@ export default function RideRequestPage() {
         <div className="flex flex-col gap-4 px-4">
           <div className={classes}>
             <h3 className="font-bold">{t('from')}:</h3>
-            <p>{from}</p>
+            <p style={{ maxWidth: '75%', wordWrap: 'break-word' }}>
+              {from.address}
+            </p>
           </div>
           <div className={classes}>
             <h3 className="font-bold">{t('to')}:</h3>

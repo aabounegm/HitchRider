@@ -1,6 +1,8 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { parse, validate } from '@tma.js/init-data-node';
+import { pointToCoords } from '../utils';
+import type { RideQueryResult } from '@/lib/types/request';
 
 type Params = {
   params: {
@@ -11,13 +13,28 @@ type Params = {
 // TODO: factor out this functionality into a separate function and reuse for requests and announcements
 export async function GET(req: NextRequest, { params }: Params) {
   try {
-    const ride = await prisma.rideRequest.findUniqueOrThrow({
-      where: {
-        id: Number(params.id),
-      },
-    });
+    const rides: RideQueryResult[] = await prisma.$queryRaw`
+      SELECT "id", "from"::Text, "to"::Text, "time", "passengers", "userChatId"
+      FROM requests
+      WHERE "id" = ${Number(params.id)}
+      LIMIT 1
+    `;
+    if (rides.length !== 1) {
+      return NextResponse.json(
+        {
+          message: 'Request not found',
+        },
+        { status: 404 }
+      );
+    }
+    const ride = rides[0];
     return NextResponse.json({
       ...ride,
+      from: {
+        coords: pointToCoords(ride.from),
+        // TODO
+        address: pointToCoords(ride.from).toString(),
+      },
       userChatId: Number(ride.userChatId),
     });
   } catch (e) {

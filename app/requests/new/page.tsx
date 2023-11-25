@@ -1,4 +1,5 @@
 'use client';
+import LocationInput, { type LocationValues } from '@/components/LocationInput';
 import { createRideRequest } from '@/lib/api/rides';
 import { BackButton, MainButton } from '@/lib/components/telegram';
 import { tzIsoTimestamp, hourCeil } from '@/lib/date-utils';
@@ -7,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
 interface Request {
-  from: string;
+  from: LocationValues;
   to: string;
   time: string;
   passengers: number;
@@ -18,7 +19,11 @@ export default function NewRequestPage() {
   const { t } = useTranslation('requests', { keyPrefix: 'new' });
 
   const initialValues: Request = {
-    from: '',
+    from: {
+      address: '',
+      // TODO: use current location
+      coords: [55.751759, 48.746181],
+    },
     to: '',
     time: tzIsoTimestamp(hourCeil(new Date())),
     passengers: 1,
@@ -49,7 +54,7 @@ export default function NewRequestPage() {
           <Form className="flex flex-col gap-3 mt-3">
             <label className="flex justify-between items-center w-full">
               <span>{t('from')}:</span>
-              <Field type="text" name="from" required minLength="3"></Field>
+              <LocationInput name="from" required />
             </label>
             {/* <ErrorMessage name="from" /> */}
             <label className="flex justify-between items-center w-full">

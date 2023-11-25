@@ -22,13 +22,14 @@ model User {
 }
 
 model RideRequest {
-    id         Int      @id @default(autoincrement())
-    from       String
+    id         Int                  @id @default(autoincrement())
+    from       Unsupported("Point")
+    // fromAddr   String
     to         String
     time       DateTime
     /// How many people are looking for a ride together
-    passengers Int      @default(1)
-    user       User     @relation(fields: [userChatId], references: [chatId])
+    passengers Int                  @default(1)
+    user       User                 @relation(fields: [userChatId], references: [chatId])
     userChatId BigInt
 
     @@map("requests")
