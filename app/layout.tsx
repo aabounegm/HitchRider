@@ -48,7 +48,7 @@ export default function RootLayout({
           <YMaps
             query={{
               lang: 'en_RU',
-              apikey: process.env.YANDEX_MAPS_KEY,
+              apikey: process.env.NEXT_PUBLIC_YANDEX_MAPS_KEY,
             }}
           >
             {children}
