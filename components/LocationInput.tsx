@@ -38,16 +38,17 @@ export default function LocationInput(props: FieldHookConfig<LocationValues>) {
   }
 
   async function confirm() {
+    // TODO: get address from geocoding API
+    const address = coords?.toString() ?? '';
     if (coords) {
-      helpers.setValue({
+      await helpers.setValue({
         coords,
-        // TODO: get address from geocoding API
-        address: coords?.toString() ?? '',
+        address,
       });
     } else {
       // TODO: set error
     }
-    setAddress(field.value.address);
+    setAddress(address);
     setIsOpen(false);
   }
 
