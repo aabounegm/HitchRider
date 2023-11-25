@@ -79,10 +79,10 @@ export default function NewRidePage() {
               <span>{t('available seats')}:</span>
               <Field type="number" name="passengers" min={1} />
             </label>
-            <label className="flex justify-between items-center w-full">
+            {/* <label className="flex justify-between items-center w-full">
               <span style={{ whiteSpace: 'pre-line' }}>{t('price')}</span>
               <Field type="number" name="price" min={0} />
-            </label>
+            </label> */}
             <ErrorMessage name="price">
               {(msg: string) => <p className="text-red-500">{msg}</p>}
             </ErrorMessage>
