@@ -19,3 +19,7 @@ button {
 input {
   background-color: var(--tg-theme-secondary-bg-color) !important;
 }
+
+.ymaps-2-1-79-map-copyrights-promo {
+  display: none;
+}
