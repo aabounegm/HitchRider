@@ -119,11 +119,15 @@ export default function RidePage() {
         <div className="flex flex-col gap-4 px-4">
           <div className={classes}>
             <h3 className="font-bold">{t('from')}:</h3>
-            <p>{from.address}</p>
+            <p style={{ maxWidth: '75%', wordWrap: 'break-word' }}>
+              {from.address}
+            </p>
           </div>
           <div className={classes}>
             <h3 className="font-bold">{t('to')}:</h3>
-            <p>{to.address}</p>
+            <p style={{ maxWidth: '75%', wordWrap: 'break-word' }}>
+              {to.address}
+            </p>
           </div>
           <div className={classes}>
             <h3 className="font-bold">{t('available seats')}:</h3>

@@ -10,7 +10,7 @@ import { pointToCoords } from '../utils';
 export async function GET(req: NextRequest) {
   try {
     const rides: RideAnnouncementQueryResult[] = await prisma.$queryRaw`
-        SELECT "id", "from"::Text, "to"::Text, "time", "passengers", "userChatId"
+        SELECT "id", "from"::Text, "fromAddr", "to"::Text, "toAddr", "time", "passengers", "userChatId"
         FROM requests
         WHERE "time" >= now()
         ORDER BY "time" ASC`;
@@ -20,13 +20,11 @@ export async function GET(req: NextRequest) {
         ...ride,
         from: {
           coords: pointToCoords(ride.from),
-          // TODO
-          address: pointToCoords(ride.from).toString(),
+          address: ride.fromAddr,
         },
         to: {
           coords: pointToCoords(ride.to),
-          // TODO
-          address: pointToCoords(ride.to).toString(),
+          address: ride.toAddr,
         },
         userChatId: Number(ride.userChatId),
       }))
@@ -64,8 +62,9 @@ export async function POST(req: NextRequest) {
     rideAnnouncement as RideAnnouncementParams;
 
   const newAnnouncement: [{ id: number }] = await prisma.$queryRaw`
-    INSERT INTO announcements ("from", "to", "time", "price", "passengers", "carInfo", "userChatId")
-    VALUES (point(${from.coords[0]}, ${from.coords[1]}), point(${to.coords[0]}, ${to.coords[1]}),
+    INSERT INTO announcements ("from", "fromAddr", "to", "toAddr", "time", "price", "passengers", "carInfo", "userChatId")
+    VALUES (point(${from.coords[0]}, ${from.coords[1]}), ${from.address},
+      point(${to.coords[0]}, ${to.coords[1]}), ${to.address},
       ${time}::timestamptz, ${price}, ${passengers}, ${carInfo}, ${parsedInitData.user.id})
     RETURNING "id"`;
 

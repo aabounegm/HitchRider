@@ -38,9 +38,22 @@ export default function LocationInput(props: FieldHookConfig<LocationValues>) {
   }
 
   async function confirm() {
-    // TODO: get address from geocoding API
-    const address = coords?.toString() ?? '';
+    let address = coords?.toString() ?? '';
     if (coords) {
+      const params = new URLSearchParams({
+        lat: coords[0].toString(),
+        lon: coords[1].toString(),
+      });
+      try {
+        const res = await fetch('https://geocode.maps.co/reverse?' + params);
+        if (!res.ok) {
+          throw new Error(await res.text());
+        }
+        const data = await res.json();
+        address = data.display_name;
+      } catch (e) {
+        console.warn('Could not geocode the given coords:', e);
+      }
       await helpers.setValue({
         coords,
         address,

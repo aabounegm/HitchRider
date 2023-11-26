@@ -99,7 +99,9 @@ export default function RideRequestPage() {
           </div>
           <div className={classes}>
             <h3 className="font-bold">{t('to')}:</h3>
-            <p>{to.address}</p>
+            <p style={{ maxWidth: '75%', wordWrap: 'break-word' }}>
+              {to.address}
+            </p>
           </div>
           <div className={classes}>
             <h3 className="font-bold">{t('needed seats')}:</h3>

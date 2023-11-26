@@ -24,9 +24,9 @@ model User {
 model RideRequest {
     id         Int                  @id @default(autoincrement())
     from       Unsupported("Point")
-    // fromAddr   String
+    fromAddr   String
     to         Unsupported("Point")
-    // toAddr     String
+    toAddr     String
     time       DateTime
     /// How many people are looking for a ride together
     passengers Int                  @default(1)
@@ -39,9 +39,9 @@ model RideRequest {
 model RideAnnouncement {
     id         Int                  @id @default(autoincrement())
     from       Unsupported("Point")
-    // fromAddr   String
+    fromAddr   String
     to         Unsupported("Point")
-    // toAddr     String
+    toAddr     String
     time       DateTime
     /// How many places are available
     passengers Int                  @default(1)

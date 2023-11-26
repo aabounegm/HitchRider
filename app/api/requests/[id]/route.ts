@@ -14,7 +14,7 @@ type Params = {
 export async function GET(req: NextRequest, { params }: Params) {
   try {
     const rides: RideRequestQueryResult[] = await prisma.$queryRaw`
-      SELECT "id", "from"::Text, "to"::Text, "time", "passengers", "userChatId"
+      SELECT "id", "from"::Text, "fromAddr", "to"::Text, "toAddr", "time", "passengers", "userChatId"
       FROM requests
       WHERE "id" = ${Number(params.id)}
       LIMIT 1
@@ -32,13 +32,11 @@ export async function GET(req: NextRequest, { params }: Params) {
       ...ride,
       from: {
         coords: pointToCoords(ride.from),
-        // TODO
-        address: pointToCoords(ride.from).toString(),
+        address: ride.fromAddr,
       },
       to: {
         coords: pointToCoords(ride.to),
-        // TODO
-        address: pointToCoords(ride.to).toString(),
+        address: ride.toAddr,
       },
       userChatId: Number(ride.userChatId),
     });
