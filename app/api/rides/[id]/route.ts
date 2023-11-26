@@ -1,6 +1,8 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { parse, validate } from '@tma.js/init-data-node';
+import { RideAnnouncementQueryResult } from '@/lib/types/ride';
+import { pointToCoords } from '../../utils';
 
 type Params = {
   params: {
@@ -10,19 +12,38 @@ type Params = {
 
 export async function GET(req: NextRequest, { params }: Params) {
   try {
-    const ride = await prisma.rideAnnouncement.findUniqueOrThrow({
-      where: {
-        id: Number(params.id),
-      },
-    });
+    const announcements: RideAnnouncementQueryResult[] = await prisma.$queryRaw`
+      SELECT "id", "from"::Text, "to"::Text, "time", "passengers", "price", "carInfo", "userChatId"
+      FROM announcements
+      WHERE "id" = ${Number(params.id)}
+      LIMIT 1
+    `;
+    if (announcements.length !== 1) {
+      return NextResponse.json(
+        {
+          message: 'Ride not found',
+        },
+        { status: 404 }
+      );
+    }
+
+    const ride = announcements[0];
+
     return NextResponse.json({
       ...ride,
+      from: {
+        coords: pointToCoords(ride.from),
+        // TODO
+        address: pointToCoords(ride.from).toString(),
+      },
+      to: {
+        coords: pointToCoords(ride.to),
+        // TODO
+        address: pointToCoords(ride.to).toString(),
+      },
       userChatId: Number(ride.userChatId),
     });
   } catch (e) {
-    if ((e as any).name === 'NotFoundError') {
-      return NextResponse.json({ message: 'Ride not found' }, { status: 404 });
-    }
     console.error(e);
     return NextResponse.json(
       { message: 'Internal server error' },

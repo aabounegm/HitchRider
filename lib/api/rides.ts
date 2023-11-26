@@ -1,4 +1,4 @@
-import type { Prisma, RideAnnouncement } from '@prisma/client';
+import type { RideAnnouncementParams } from '../types/ride';
 import type { RideRequestParams } from '../types/request';
 
 export async function createRideRequest(
@@ -23,8 +23,8 @@ export async function createRideRequest(
 }
 
 export async function createRideAnnouncement(
-  ride: Omit<Prisma.RideAnnouncementCreateInput, 'user'>
-): Promise<RideAnnouncement> {
+  ride: Omit<RideAnnouncementParams, 'user'>
+): Promise<{ id: number }> {
   const { from, to, time, passengers, carInfo, price } = ride;
   const res = await fetch('/api/rides', {
     method: 'POST',
@@ -42,8 +42,5 @@ export async function createRideAnnouncement(
   });
   const data = await res.json();
   if (!res.ok) throw data;
-  return {
-    ...data,
-    time: new Date(data.time),
-  };
+  return data;
 }

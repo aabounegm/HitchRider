@@ -99,7 +99,7 @@ export default function RideRequestPage() {
           </div>
           <div className={classes}>
             <h3 className="font-bold">{t('to')}:</h3>
-            <p>{to}</p>
+            <p>{to.address}</p>
           </div>
           <div className={classes}>
             <h3 className="font-bold">{t('needed seats')}:</h3>

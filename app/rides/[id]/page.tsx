@@ -2,7 +2,7 @@
 import { useParams } from 'next/navigation';
 import { MainButton } from '@/lib/components/telegram';
 import useSWR from 'swr';
-import type { RideAnnouncement } from '@prisma/client';
+import type { RideAnnouncementResult } from '@/lib/types/ride';
 import Header from '@/components/Header';
 import { useRouter } from 'next/navigation';
 // import { useTonConnectUI, useTonAddress } from '@tonconnect/ui-react';
@@ -15,7 +15,7 @@ export default function RidePage() {
   // const myAddress = useTonAddress();
   const { t } = useTranslation(['rides', 'common']);
 
-  const { data, isLoading, error } = useSWR<RideAnnouncement>(
+  const { data, isLoading, error } = useSWR<RideAnnouncementResult>(
     '/api/rides/' + params.id
   );
   if (typeof window === 'undefined') {
@@ -119,11 +119,11 @@ export default function RidePage() {
         <div className="flex flex-col gap-4 px-4">
           <div className={classes}>
             <h3 className="font-bold">{t('from')}:</h3>
-            <p>{from}</p>
+            <p>{from.address}</p>
           </div>
           <div className={classes}>
             <h3 className="font-bold">{t('to')}:</h3>
-            <p>{to}</p>
+            <p>{to.address}</p>
           </div>
           <div className={classes}>
             <h3 className="font-bold">{t('available seats')}:</h3>

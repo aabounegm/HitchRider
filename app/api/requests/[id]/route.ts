@@ -35,12 +35,14 @@ export async function GET(req: NextRequest, { params }: Params) {
         // TODO
         address: pointToCoords(ride.from).toString(),
       },
+      to: {
+        coords: pointToCoords(ride.to),
+        // TODO
+        address: pointToCoords(ride.to).toString(),
+      },
       userChatId: Number(ride.userChatId),
     });
   } catch (e) {
-    if ((e as any).name === 'NotFoundError') {
-      return NextResponse.json({ message: 'Ride not found' }, { status: 404 });
-    }
     console.error(e);
     return NextResponse.json(
       { message: 'Internal server error' },

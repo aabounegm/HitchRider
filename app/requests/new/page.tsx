@@ -1,41 +1,42 @@
 'use client';
-import LocationInput, { type LocationValues } from '@/components/LocationInput';
+import LocationInput from '@/components/LocationInput';
 import { createRideRequest } from '@/lib/api/rides';
 import { BackButton, MainButton } from '@/lib/components/telegram';
 import { tzIsoTimestamp, hourCeil } from '@/lib/date-utils';
+import { RideRequestParams } from '@/lib/types/request';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-
-interface Request {
-  from: LocationValues;
-  to: string;
-  time: string;
-  passengers: number;
-}
 
 export default function NewRequestPage() {
   const router = useRouter();
   const { t } = useTranslation('requests', { keyPrefix: 'new' });
 
-  const initialValues: Request = {
+  const initialValues: RideRequestParams = {
     from: {
       address: '',
       // TODO: use current location
       coords: [55.751759, 48.746181],
     },
-    to: '',
+    to: {
+      address: '',
+      // TODO: use current location
+      coords: [55.751759, 48.746181],
+    },
     time: tzIsoTimestamp(hourCeil(new Date())),
     passengers: 1,
   };
 
-  function validate(values: Request) {
+  function validate(values: RideRequestParams) {
     const errors: Partial<Record<keyof Request, string>> = {};
     // TODO
     return errors;
   }
 
-  async function submit(values: Request, helpers: FormikHelpers<Request>) {
+  async function submit(
+    values: RideRequestParams,
+    helpers: FormikHelpers<RideRequestParams>
+  ) {
     const request = await createRideRequest(values);
     helpers.resetForm();
     router.push(`/requests/${request.id}`);
@@ -59,7 +60,7 @@ export default function NewRequestPage() {
             {/* <ErrorMessage name="from" /> */}
             <label className="flex justify-between items-center w-full">
               <span>{t('to')}:</span>
-              <Field type="text" name="to" required></Field>
+              <LocationInput name="to" required />
             </label>
             <label className="flex justify-between items-center w-full">
               <span>{t('day-time')}:</span>

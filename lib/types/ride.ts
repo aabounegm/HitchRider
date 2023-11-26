@@ -1,19 +1,19 @@
 import type { LocationValues } from '@/components/LocationInput';
-import type { RideRequest } from '@prisma/client';
+import type { RideAnnouncement } from '@prisma/client';
 
-export type RideRequestParams = Omit<
-  RideRequest,
+export type RideAnnouncementParams = Omit<
+  RideAnnouncement,
   'id' | 'userChatId' | 'time'
 > & {
   time: string;
   from: LocationValues;
   to: LocationValues;
 };
-export type RideRequestQueryResult = RideRequest & {
+export type RideAnnouncementQueryResult = RideAnnouncement & {
   from: string;
   to: string;
 };
-export type RideRequestResult = RideRequest & {
+export type RideAnnouncementResult = RideAnnouncement & {
   from: LocationValues;
   to: LocationValues;
 };

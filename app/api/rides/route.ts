@@ -1,23 +1,33 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import type { Prisma } from '@prisma/client';
+import type {
+  RideAnnouncementParams,
+  RideAnnouncementQueryResult,
+} from '@/lib/types/ride';
 import { parse, validate } from '@tma.js/init-data-node';
+import { pointToCoords } from '../utils';
 
 export async function GET(req: NextRequest) {
   try {
-    const rides = await prisma.rideAnnouncement.findMany({
-      where: {
-        time: {
-          gte: new Date(),
-        },
-      },
-      orderBy: {
-        time: 'asc',
-      },
-    });
+    const rides: RideAnnouncementQueryResult[] = await prisma.$queryRaw`
+        SELECT "id", "from"::Text, "to"::Text, "time", "passengers", "userChatId"
+        FROM requests
+        WHERE "time" >= now()
+        ORDER BY "time" ASC`;
+
     return NextResponse.json(
       rides.map((ride) => ({
         ...ride,
+        from: {
+          coords: pointToCoords(ride.from),
+          // TODO
+          address: pointToCoords(ride.from).toString(),
+        },
+        to: {
+          coords: pointToCoords(ride.to),
+          // TODO
+          address: pointToCoords(ride.to).toString(),
+        },
         userChatId: Number(ride.userChatId),
       }))
     );
@@ -51,22 +61,13 @@ export async function POST(req: NextRequest) {
   }
 
   const { from, to, time, passengers, carInfo, price } =
-    rideAnnouncement as Prisma.RideAnnouncementCreateArgs['data'];
+    rideAnnouncement as RideAnnouncementParams;
 
-  const newRequest = await prisma.rideAnnouncement.create({
-    data: {
-      from,
-      to,
-      time,
-      price,
-      passengers,
-      carInfo,
-      userChatId: parsedInitData.user.id,
-    },
-  });
+  const newAnnouncement: [{ id: number }] = await prisma.$queryRaw`
+    INSERT INTO announcements ("from", "to", "time", "price", "passengers", "carInfo", "userChatId")
+    VALUES (point(${from.coords[0]}, ${from.coords[1]}), point(${to.coords[0]}, ${to.coords[1]}),
+      ${time}::timestamptz, ${price}, ${passengers}, ${carInfo}, ${parsedInitData.user.id})
+    RETURNING "id"`;
 
-  return NextResponse.json({
-    ...newRequest,
-    userChatId: Number(newRequest.userChatId),
-  });
+  return NextResponse.json(newAnnouncement[0]);
 }

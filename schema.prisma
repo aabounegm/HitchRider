@@ -25,7 +25,8 @@ model RideRequest {
     id         Int                  @id @default(autoincrement())
     from       Unsupported("Point")
     // fromAddr   String
-    to         String
+    to         Unsupported("Point")
+    // toAddr     String
     time       DateTime
     /// How many people are looking for a ride together
     passengers Int                  @default(1)
@@ -36,17 +37,19 @@ model RideRequest {
 }
 
 model RideAnnouncement {
-    id         Int      @id @default(autoincrement())
-    from       String
-    to         String
+    id         Int                  @id @default(autoincrement())
+    from       Unsupported("Point")
+    // fromAddr   String
+    to         Unsupported("Point")
+    // toAddr     String
     time       DateTime
     /// How many places are available
-    passengers Int      @default(1)
+    passengers Int                  @default(1)
     /// Price per seat
-    price      Int      @default(0)
+    price      Int                  @default(0)
     /// Description of the car to make it easier to find
-    carInfo    String   @default("")
-    user       User     @relation(fields: [userChatId], references: [chatId])
+    carInfo    String               @default("")
+    user       User                 @relation(fields: [userChatId], references: [chatId])
     userChatId BigInt
 
     @@map("announcements")

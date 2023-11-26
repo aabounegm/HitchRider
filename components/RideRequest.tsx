@@ -23,7 +23,7 @@ export default function Ride({
         {from.address}
       </p>
       <h3 className="font-bold">{t('to')}:</h3>
-      <p>{to}</p>
+      <p>{to.address}</p>
       <h3 className="font-bold">{t('needed seats')}:</h3>
       <p>{passengers}</p>
       {/* <h3 className="font-bold">Price per seat:</h3>

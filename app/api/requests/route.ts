@@ -23,6 +23,11 @@ export async function GET(req: NextRequest) {
           // TODO
           address: pointToCoords(ride.from).toString(),
         },
+        to: {
+          coords: pointToCoords(ride.to),
+          // TODO
+          address: pointToCoords(ride.to).toString(),
+        },
         userChatId: Number(ride.userChatId),
       }))
     );
@@ -58,8 +63,8 @@ export async function POST(req: NextRequest) {
 
   const newRequest: [{ id: number }] = await prisma.$queryRaw`
     INSERT INTO requests ("from", "to", "time", "passengers", "userChatId")
-    VALUES (point(${from.coords[0]}, ${from.coords[1]}), ${to}, ${time}::timestamptz,
-      ${passengers}, ${parsedInitData.user.id})
+    VALUES (point(${from.coords[0]}, ${from.coords[1]}), point(${to.coords[0]}, ${to.coords[1]}),
+      ${time}::timestamptz, ${passengers}, ${parsedInitData.user.id})
     RETURNING "id"`;
 
   return NextResponse.json(newRequest[0]);
