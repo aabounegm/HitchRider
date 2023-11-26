@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { parse, validate } from '@tma.js/init-data-node';
-import { pointToCoords } from '../utils';
+import { pointToCoords } from '../../utils';
 import type { RideRequestQueryResult } from '@/lib/types/request';
 
 type Params = {

@@ -5,7 +5,7 @@ import type {
 } from '@/lib/types/request';
 import { parse, validate } from '@tma.js/init-data-node';
 import prisma from '@/lib/prisma';
-import { pointToCoords } from './utils';
+import { pointToCoords } from '../utils';
 
 export async function GET(req: NextRequest) {
   try {
