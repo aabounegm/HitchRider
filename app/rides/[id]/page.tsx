@@ -4,6 +4,7 @@ import { MainButton } from '@/lib/components/telegram';
 import useSWR from 'swr';
 import type { RideAnnouncementResult } from '@/lib/types/ride';
 import Header from '@/components/Header';
+import LocationDisplay from '@/components/LocationDisplay';
 import { useRouter } from 'next/navigation';
 // import { useTonConnectUI, useTonAddress } from '@tonconnect/ui-react';
 import { useTranslation } from 'react-i18next';
@@ -118,13 +119,17 @@ export default function RidePage() {
         </div>
         <div className="flex flex-col gap-4 px-4">
           <div className={classes}>
-            <h3 className="font-bold">{t('from')}:</h3>
+            <h3 className="font-bold">
+              {t('from')}: <LocationDisplay coords={from.coords} />
+            </h3>
             <p style={{ maxWidth: '75%', wordWrap: 'break-word' }}>
               {from.address}
             </p>
           </div>
           <div className={classes}>
-            <h3 className="font-bold">{t('to')}:</h3>
+            <h3 className="font-bold">
+              {t('to')}: <LocationDisplay coords={to.coords} />
+            </h3>
             <p style={{ maxWidth: '75%', wordWrap: 'break-word' }}>
               {to.address}
             </p>

@@ -79,7 +79,7 @@ export default function LocationInput(props: FieldHookConfig<LocationValues>) {
         style={{
           content: {
             height: 'fit-content',
-            inset: '20px',
+            inset: '15px',
             padding: '11px',
             margin: 'auto',
           },
