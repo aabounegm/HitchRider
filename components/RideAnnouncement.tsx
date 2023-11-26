@@ -19,11 +19,23 @@ export default function Ride({
       className="grid grid-cols-2 p-3 rounded-lg border border-gray-200 shadow bg-tg-bg text-tg-text"
     >
       <h3 className="font-bold">{t('from')}:</h3>
-      <p style={{ overflowX: 'hidden', textOverflow: 'ellipsis' }}>
+      <p
+        style={{
+          overflowX: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}
+      >
         {from.address}
       </p>
       <h3 className="font-bold">{t('to')}:</h3>
-      <p style={{ overflowX: 'hidden', textOverflow: 'ellipsis' }}>
+      <p
+        style={{
+          overflowX: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}
+      >
         {to.address}
       </p>
       <h3 className="font-bold">{t('available seats')}:</h3>
