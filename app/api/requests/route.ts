@@ -1,12 +1,15 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import type { RideRequestParams, RideQueryResult } from '@/lib/types/request';
+import type {
+  RideRequestParams,
+  RideRequestQueryResult,
+} from '@/lib/types/request';
 import { parse, validate } from '@tma.js/init-data-node';
 import prisma from '@/lib/prisma';
 import { pointToCoords } from './utils';
 
 export async function GET(req: NextRequest) {
   try {
-    const rides: RideQueryResult[] = await prisma.$queryRaw`
+    const rides: RideRequestQueryResult[] = await prisma.$queryRaw`
         SELECT "id", "from"::Text, "to"::Text, "time", "passengers", "userChatId"
         FROM requests
         WHERE "time" >= now()

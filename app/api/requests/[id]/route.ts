@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { parse, validate } from '@tma.js/init-data-node';
 import { pointToCoords } from '../utils';
-import type { RideQueryResult } from '@/lib/types/request';
+import type { RideRequestQueryResult } from '@/lib/types/request';
 
 type Params = {
   params: {
@@ -13,7 +13,7 @@ type Params = {
 // TODO: factor out this functionality into a separate function and reuse for requests and announcements
 export async function GET(req: NextRequest, { params }: Params) {
   try {
-    const rides: RideQueryResult[] = await prisma.$queryRaw`
+    const rides: RideRequestQueryResult[] = await prisma.$queryRaw`
       SELECT "id", "from"::Text, "to"::Text, "time", "passengers", "userChatId"
       FROM requests
       WHERE "id" = ${Number(params.id)}

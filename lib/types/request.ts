@@ -8,7 +8,7 @@ export type RideRequestParams = Omit<
   time: string;
   from: LocationValues;
 };
-export type RideQueryResult = RideRequest & {
+export type RideRequestQueryResult = RideRequest & {
   from: string;
 };
 export type RideRequestResult = RideRequest & {
