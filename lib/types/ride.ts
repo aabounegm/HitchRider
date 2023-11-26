@@ -3,7 +3,7 @@ import type { RideAnnouncement } from '@prisma/client';
 
 export type RideAnnouncementParams = Omit<
   RideAnnouncement,
-  'id' | 'userChatId' | 'time'
+  'id' | 'userChatId' | 'time' | 'fromAddr' | 'toAddr'
 > & {
   time: string;
   from: LocationValues;
