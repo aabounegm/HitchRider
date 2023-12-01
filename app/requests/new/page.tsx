@@ -1,27 +1,43 @@
 'use client';
-import LocationInput from '@/components/LocationInput';
+import LocationInput, { type Coords } from '@/components/LocationInput';
 import { createRideRequest } from '@/lib/api/rides';
 import { BackButton, MainButton } from '@/lib/components/telegram';
 import { tzIsoTimestamp, hourCeil } from '@/lib/date-utils';
+import { getCurrentLocation } from '@/lib/location';
 import { RideRequestParams } from '@/lib/types/request';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export default function NewRequestPage() {
   const router = useRouter();
   const { t } = useTranslation('requests', { keyPrefix: 'new' });
+  const [currentLocation, setCurrentLocation] = useState<Coords>();
+
+  useEffect(() => {
+    getCurrentLocation()
+      .then(setCurrentLocation)
+      .catch((err: GeolocationPositionError) => {
+        console.error(err);
+        alert('Could not get your location. Error message: ' + err.message);
+        // Just default to Innopolis
+        setCurrentLocation([55.751759, 48.746181]);
+      });
+  }, []);
+
+  if (!currentLocation) {
+    return <p>Loading...</p>;
+  }
 
   const initialValues: RideRequestParams = {
     from: {
       address: '',
-      // TODO: use current location
-      coords: [55.751759, 48.746181],
+      coords: currentLocation,
     },
     to: {
       address: '',
-      // TODO: use current location
-      coords: [55.751759, 48.746181],
+      coords: currentLocation,
     },
     time: tzIsoTimestamp(hourCeil(new Date())),
     passengers: 1,

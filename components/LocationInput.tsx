@@ -13,7 +13,7 @@ import Modal from 'react-modal';
 
 Modal.setAppElement('body');
 
-type Coords = [lat: number, lng: number];
+export type Coords = [lat: number, lng: number];
 export interface LocationValues {
   coords: Coords;
   address: string;
