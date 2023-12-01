@@ -65,6 +65,10 @@ export default function LocationInput(props: FieldHookConfig<LocationValues>) {
     setIsOpen(false);
   }
 
+  function cancel() {
+    setIsOpen(false);
+  }
+
   // TODO: add title text in modal
   return (
     <>
@@ -96,8 +100,14 @@ export default function LocationInput(props: FieldHookConfig<LocationValues>) {
           <ZoomControl />
           <GeolocationControl />
         </Map>
-        <button className="float-right mt-2 p-2" onClick={confirm}>
+        <button className="float-right mt-2 ml-2 p-2" onClick={confirm}>
           Confirm
+        </button>
+        <button
+          className="float-right mt-2 p-2 bg-inherit text-inherit"
+          onClick={cancel}
+        >
+          Cancel
         </button>
       </Modal>
     </>
