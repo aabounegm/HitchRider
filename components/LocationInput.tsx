@@ -1,13 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FieldHookConfig, useField } from 'formik';
-import {
-  Map,
-  Placemark,
-  ZoomControl,
-  SearchControl,
-  FullscreenControl,
-  GeolocationControl,
-} from '@pbe/react-yandex-maps';
+import { useYMaps } from '@pbe/react-yandex-maps';
 import type { MapEvent } from 'yandex-maps';
 import Modal from 'react-modal';
 
@@ -21,16 +14,54 @@ export interface LocationValues {
 
 export default function LocationInput(props: FieldHookConfig<LocationValues>) {
   const [field, meta, helpers] = useField<LocationValues>(props);
-
-  const defaultState = {
-    // TODO: get user location as fallback
-    // Innopolis
-    center: field.value?.coords ?? ([55.751759, 48.746181] as Coords),
-    zoom: 14,
-  };
   const [modalIsOpen, setIsOpen] = useState(false);
   const [coords, setCoords] = useState<Coords>();
   const [address, setAddress] = useState(field.value?.address ?? '');
+  const [mapRef, setMapRef] = useState<HTMLDivElement | null>(null);
+  const ymaps = useYMaps([
+    'Map',
+    'Placemark',
+    'control.ZoomControl',
+    'control.FullscreenControl',
+    'control.GeolocationControl',
+    'control.SearchControl',
+  ]);
+
+  useEffect(() => {
+    if (!ymaps || !mapRef) {
+      return;
+    }
+    const map = new ymaps.Map(
+      mapRef,
+      {
+        // default to Innopolis
+        center: field.value?.coords ?? ([55.751759, 48.746181] as Coords),
+        zoom: 14,
+      },
+      {
+        yandexMapDisablePoiInteractivity: true,
+      }
+    );
+    map.controls.add(new ymaps.control.ZoomControl());
+    map.controls.add(new ymaps.control.FullscreenControl());
+    map.controls.add(new ymaps.control.GeolocationControl());
+    map.controls.add(
+      new ymaps.control.SearchControl({
+        options: { float: 'right', noPlacemark: true },
+      })
+    );
+    let placemark: ymaps.Placemark | undefined;
+    map.events.add('click', (e: MapEvent) => {
+      const coords: Coords = e.get('coords');
+      if (placemark) {
+        placemark.geometry?.setCoordinates(coords);
+      } else {
+        placemark = new ymaps.Placemark(coords, {});
+        map.geoObjects.add(placemark);
+      }
+      setCoords(coords);
+    });
+  }, [ymaps, mapRef]);
 
   function triggerModal() {
     // helpers.setTouched(!modalIsOpen);
@@ -89,17 +120,7 @@ export default function LocationInput(props: FieldHookConfig<LocationValues>) {
           },
         }}
       >
-        <Map
-          defaultState={defaultState}
-          onClick={(e: MapEvent) => setCoords(e.get('coords'))}
-          defaultOptions={{ yandexMapDisablePoiInteractivity: true }}
-        >
-          {coords && <Placemark geometry={coords} />}
-          <SearchControl options={{ float: 'right' }} />
-          <FullscreenControl />
-          <ZoomControl />
-          <GeolocationControl />
-        </Map>
+        <div ref={setMapRef} style={{ width: '320px', height: '240px' }}></div>
         <button className="float-right mt-2 ml-2 p-2" onClick={confirm}>
           Confirm
         </button>
