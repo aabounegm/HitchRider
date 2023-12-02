@@ -1,36 +1,58 @@
 'use client';
+import LocationInput, { type Coords } from '@/components/LocationInput';
 import { createRideRequest } from '@/lib/api/rides';
 import { BackButton, MainButton } from '@/lib/components/telegram';
 import { tzIsoTimestamp, hourCeil } from '@/lib/date-utils';
+import { getCurrentLocation } from '@/lib/location';
+import { RideRequestParams } from '@/lib/types/request';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-interface Request {
-  from: string;
-  to: string;
-  time: string;
-  passengers: number;
-}
 
 export default function NewRequestPage() {
   const router = useRouter();
   const { t } = useTranslation('requests', { keyPrefix: 'new' });
+  const [currentLocation, setCurrentLocation] = useState<Coords>();
 
-  const initialValues: Request = {
-    from: '',
-    to: '',
+  useEffect(() => {
+    getCurrentLocation()
+      .then(setCurrentLocation)
+      .catch((err: GeolocationPositionError) => {
+        console.error(err);
+        alert('Could not get your location. Error message: ' + err.message);
+        // Just default to Innopolis
+        setCurrentLocation([55.751759, 48.746181]);
+      });
+  }, []);
+
+  if (!currentLocation) {
+    return <p>Loading...</p>;
+  }
+
+  const initialValues: RideRequestParams = {
+    from: {
+      address: '',
+      coords: currentLocation,
+    },
+    to: {
+      address: '',
+      coords: currentLocation,
+    },
     time: tzIsoTimestamp(hourCeil(new Date())),
     passengers: 1,
   };
 
-  function validate(values: Request) {
+  function validate(values: RideRequestParams) {
     const errors: Partial<Record<keyof Request, string>> = {};
     // TODO
     return errors;
   }
 
-  async function submit(values: Request, helpers: FormikHelpers<Request>) {
+  async function submit(
+    values: RideRequestParams,
+    helpers: FormikHelpers<RideRequestParams>
+  ) {
     const request = await createRideRequest(values);
     helpers.resetForm();
     router.push(`/requests/${request.id}`);
@@ -49,12 +71,12 @@ export default function NewRequestPage() {
           <Form className="flex flex-col gap-3 mt-3">
             <label className="flex justify-between items-center w-full">
               <span>{t('from')}:</span>
-              <Field type="text" name="from" required minLength="3"></Field>
+              <LocationInput name="from" required />
             </label>
             {/* <ErrorMessage name="from" /> */}
             <label className="flex justify-between items-center w-full">
               <span>{t('to')}:</span>
-              <Field type="text" name="to" required></Field>
+              <LocationInput name="to" required />
             </label>
             <label className="flex justify-between items-center w-full">
               <span>{t('day-time')}:</span>

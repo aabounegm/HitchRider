@@ -1,5 +1,6 @@
 'use client';
 // import { TonConnectUIProvider } from '@tonconnect/ui-react';
+import { YMaps } from '@pbe/react-yandex-maps';
 import { ensureUserExists } from '@/lib/api/user';
 import './globals.css';
 import { Inter } from 'next/font/google';
@@ -44,7 +45,14 @@ export default function RootLayout({
           }}
         >
           {/* <TonConnectUIProvider manifestUrl="https://hitch-rider.vercel.app/tonconnect-manifest.json"> */}
+          <YMaps
+            query={{
+              lang: 'en_RU',
+              apikey: process.env.NEXT_PUBLIC_YANDEX_MAPS_KEY,
+            }}
+          >
             {children}
+          </YMaps>
           {/* </TonConnectUIProvider> */}
         </SWRConfig>
       </body>

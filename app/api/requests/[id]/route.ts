@@ -1,6 +1,8 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { parseInitData, validate } from '@twa.js/init-data-node';
+import { parse, validate } from '@tma.js/init-data-node';
+import { pointToCoords } from '../../utils';
+import type { RideRequestQueryResult } from '@/lib/types/request';
 
 type Params = {
   params: {
@@ -11,19 +13,34 @@ type Params = {
 // TODO: factor out this functionality into a separate function and reuse for requests and announcements
 export async function GET(req: NextRequest, { params }: Params) {
   try {
-    const ride = await prisma.rideRequest.findUniqueOrThrow({
-      where: {
-        id: Number(params.id),
-      },
-    });
+    const rides: RideRequestQueryResult[] = await prisma.$queryRaw`
+      SELECT "id", "from"::Text, "fromAddr", "to"::Text, "toAddr", "time", "passengers", "userChatId"
+      FROM requests
+      WHERE "id" = ${Number(params.id)}
+      LIMIT 1
+    `;
+    if (rides.length !== 1) {
+      return NextResponse.json(
+        {
+          message: 'Request not found',
+        },
+        { status: 404 }
+      );
+    }
+    const ride = rides[0];
     return NextResponse.json({
       ...ride,
+      from: {
+        coords: pointToCoords(ride.from),
+        address: ride.fromAddr,
+      },
+      to: {
+        coords: pointToCoords(ride.to),
+        address: ride.toAddr,
+      },
       userChatId: Number(ride.userChatId),
     });
   } catch (e) {
-    if ((e as any).name === 'NotFoundError') {
-      return NextResponse.json({ message: 'Ride not found' }, { status: 404 });
-    }
     console.error(e);
     return NextResponse.json(
       { message: 'Internal server error' },
@@ -44,7 +61,7 @@ export async function DELETE(req: NextRequest, { params }: Params) {
     );
   }
 
-  const parsedInitData = parseInitData(initData);
+  const parsedInitData = parse(initData);
 
   const { userChatId, id } = await prisma.rideRequest.findUniqueOrThrow({
     where: {
