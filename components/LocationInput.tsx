@@ -61,7 +61,7 @@ export default function LocationInput(props: FieldHookConfig<LocationValues>) {
       }
       setCoords(coords);
     });
-  }, [ymaps, mapRef]);
+  }, [ymaps, mapRef, field.value?.coords]);
 
   function triggerModal() {
     // helpers.setTouched(!modalIsOpen);

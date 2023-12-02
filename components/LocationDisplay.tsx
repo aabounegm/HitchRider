@@ -28,7 +28,7 @@ export default function LocationInput({ coords }: { coords: Coords }) {
     map.controls.add(new ymaps.control.ZoomControl());
     map.controls.add(new ymaps.control.FullscreenControl());
     map.geoObjects.add(new ymaps.Placemark(coords, {}));
-  }, [ymaps, mapRef]);
+  }, [ymaps, mapRef, coords]);
 
   function triggerModal() {
     setIsOpen((open) => !open);
