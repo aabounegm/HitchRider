@@ -8,12 +8,27 @@ import { parse, validate } from '@tma.js/init-data-node';
 import { pointToCoords } from '../utils';
 
 export async function GET(req: NextRequest) {
+  const params = req.nextUrl.searchParams;
+  const latFrom = parseInt(params.get('from_lat') ?? req.geo?.latitude ?? '0');
+  const lngFrom = parseInt(params.get('from_lng') ?? req.geo?.longitude ?? '0');
+  // TODO:
+  // const latTo = parseInt(params.get('to_lat') ?? req.geo?.latitude ?? '0');
+  // const lngTo = parseInt(params.get('to_lng') ?? req.geo?.longitude ?? '0');
+  const page = parseInt(params.get('page') ?? '1');
+  const limit = parseInt(params.get('limit') ?? '10');
+
+  const offset = (page - 1) * limit;
+
   try {
     const rides: RideAnnouncementQueryResult[] = await prisma.$queryRaw`
-        SELECT "id", "from"::Text, "fromAddr", "to"::Text, "toAddr", "time", "passengers", "userChatId"
-        FROM requests
+        SELECT "id", "from"::Text, "fromAddr", "to"::Text, "toAddr", "time", "passengers", "userChatId",
+        point(${latFrom}, ${lngFrom})<->"from" as "distanceFrom",
+          count(*) OVER() AS "totalCount"
+        FROM announcements
         WHERE "time" >= now()
-        ORDER BY "time" ASC`;
+        ORDER BY "distanceFrom" ASC, "time" ASC
+        OFFSET ${offset}
+        LIMIT ${limit}`;
 
     return NextResponse.json(
       rides.map((ride) => ({
@@ -27,6 +42,7 @@ export async function GET(req: NextRequest) {
           address: ride.toAddr,
         },
         userChatId: Number(ride.userChatId),
+        totalCount: Number(ride.totalCount),
       }))
     );
   } catch (e) {

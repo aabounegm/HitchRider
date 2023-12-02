@@ -12,8 +12,14 @@ export type RideAnnouncementParams = Omit<
 export type RideAnnouncementQueryResult = RideAnnouncement & {
   from: string;
   to: string;
+  distanceFrom: number;
+  // distanceTo: number;
+  totalCount: number;
 };
 export type RideAnnouncementResult = RideAnnouncement & {
   from: LocationValues;
   to: LocationValues;
+  distanceFrom: number;
+  // distanceTo: number;
+  totalCount: number;
 };
